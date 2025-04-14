@@ -1,7 +1,6 @@
-# filepath: c:\project\anytime123\car_rental\bookings\car_views.py
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
-from .models import Car
+from car_rental.models import Car  # Указан правильный путь к модели Car
 
 def car_list(request):
     cars = Car.objects.all()

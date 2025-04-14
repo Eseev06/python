@@ -77,12 +77,8 @@ WSGI_APPLICATION = 'car_rental.wsgi.application'
 # filepath: c:\project\anytime123\car_rental\settings.py
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'car_rental_db',
-        'USER': 'user3',
-        'PASSWORD': 'car',
-        'HOST': 'localhost',  
-        'PORT': '5433',      
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
