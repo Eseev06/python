@@ -1,29 +1,90 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
+from django.core.validators import MinValueValidator, MaxValueValidator
+
+class CustomUser(AbstractUser):
+    phone = models.CharField(max_length=20, blank=True)
+    driver_license = models.CharField(max_length=50, blank=True)
+    address = models.TextField(blank=True)
+    
+    class Meta:
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
 
 class Car(models.Model):
-    name = models.CharField(max_length=100)
-    brand = models.CharField(max_length=100)
-    year = models.IntegerField()
-    price_per_day = models.DecimalField(max_digits=10, decimal_places=2)
+    TRANSMISSION_CHOICES = [
+        ('manual', 'Механическая'),
+        ('automatic', 'Автоматическая'),
+    ]
+    
+    name = models.CharField(max_length=100, verbose_name='Название')
+    brand = models.CharField(max_length=100, verbose_name='Марка')
+    year = models.IntegerField(verbose_name='Год выпуска')
+    price_per_day = models.DecimalField(
+        max_digits=10, 
+        decimal_places=2,
+        verbose_name='Цена за день'
+    )
+    transmission = models.CharField(
+        max_length=10,
+        choices=TRANSMISSION_CHOICES,
+        default='automatic',
+        verbose_name='Коробка передач'
+    )
+    seats = models.PositiveIntegerField(default=5, verbose_name='Количество мест')
+    image = models.ImageField(upload_to='cars/', blank=True, null=True, verbose_name='Изображение')
 
     def __str__(self):
-        return self.name
+        return f"{self.brand} {self.name} ({self.year})"
 
 class Booking(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    car = models.ForeignKey(Car, on_delete=models.CASCADE)
-    start_date = models.DateField()
-    end_date = models.DateField()
+    STATUS_CHOICES = [
+        ('pending', 'Ожидание'),
+        ('confirmed', 'Подтверждено'),
+        ('canceled', 'Отменено'),
+        ('completed', 'Завершено'),
+    ]
+    
+    user = models.ForeignKey(
+        CustomUser, 
+        on_delete=models.CASCADE,
+        verbose_name='Пользователь'
+    )
+    car = models.ForeignKey(
+        Car, 
+        on_delete=models.CASCADE,
+        verbose_name='Автомобиль'
+    )
+    start_date = models.DateField(verbose_name='Дата начала')
+    end_date = models.DateField(verbose_name='Дата окончания')
+    status = models.CharField(
+        max_length=10,
+        choices=STATUS_CHOICES,
+        default='pending',
+        verbose_name='Статус'
+    )
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
 
     def __str__(self):
-        return f"{self.user.username} - {self.car.name}"
+        return f"{self.user.username} - {self.car} ({self.status})"
 
 class Review(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    car = models.ForeignKey(Car, on_delete=models.CASCADE)
-    rating = models.IntegerField()
-    comment = models.TextField()
+    user = models.ForeignKey(
+        CustomUser, 
+        on_delete=models.CASCADE,
+        verbose_name='Пользователь'
+    )
+    car = models.ForeignKey(
+        Car, 
+        on_delete=models.CASCADE,
+        verbose_name='Автомобиль'
+    )
+    rating = models.IntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(5)],
+        verbose_name='Рейтинг'
+    )
+    comment = models.TextField(verbose_name='Комментарий')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
 
     def __str__(self):
-        return f"{self.user.username} - {self.car.name} ({self.rating})"
+        return f"{self.user.username} - {self.car} ({self.rating}/5)"

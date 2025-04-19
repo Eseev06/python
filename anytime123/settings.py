@@ -124,11 +124,18 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_URL = '/static/'  # Обратите внимание на слеш в начале
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # Для collectstatic (верно)
+
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
+    BASE_DIR / "car_rental/static",  # Указывает на вашу реальную папку static
 ]
+AUTH_USER_MODEL = 'your_app_name.CustomUser'  # Замените your_app_name на имя вашего приложения
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
