@@ -1,11 +1,10 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import JsonResponse
-from car_rental.models import Car  # Указан правильный путь к модели Car
+from car_rental.models import Car
 
 def car_list(request):
     cars = Car.objects.all()
-    return JsonResponse({'cars': list(cars.values())})
+    return render(request, 'car_rental/car_list.html', {'cars': cars})
 
 def car_detail(request, pk):
     car = get_object_or_404(Car, pk=pk)
-    return JsonResponse({'car': {'name': car.name, 'brand': car.brand, 'year': car.year, 'price_per_day': car.price_per_day}})
+    return render(request, 'car_rental/car_detail.html', {'car': car})

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="p-6">
+    <h1 class="text-2xl font-bold mb-4">Список автомобилей</h1>
+    <ul class="space-y-4">
+        {% for car in cars %}
+            <li class="border p-4 rounded-lg shadow">
+                <h2 class="text-xl font-semibold">{{ car.brand }} {{ car.model }}</h2>
+                <p>Год: {{ car.year }}</p>
+                <p>Цена в день: {{ car.price_per_day }}₽</p>
+                <a href="{% url 'car_detail' car.pk %}" class="text-indigo-600 hover:underline">Подробнее</a>
+            </li>
+        {% empty %}
+            <li>Автомобили не найдены</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
