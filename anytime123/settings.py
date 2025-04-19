@@ -69,7 +69,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'car_rental.wsgi.application'
+WSGI_APPLICATION = 'anytime123.wsgi.application'
 
 
 # Database
