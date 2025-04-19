@@ -9,7 +9,7 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('profile')  # Перенаправление на страницу профиля
+            return redirect('car_list')  # Перенаправление на страницу профиля
     else:
         form = RegisterForm()
     return render(request, 'accounts/register.html', {'form': form})

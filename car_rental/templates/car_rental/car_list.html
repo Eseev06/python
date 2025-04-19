@@ -1,18 +1,226 @@
-{% extends 'base.html' %}
-{% block content %}
-<div class="p-6">
-    <h1 class="text-2xl font-bold mb-4">Список автомобилей</h1>
-    <ul class="space-y-4">
-        {% for car in cars %}
-            <li class="border p-4 rounded-lg shadow">
-                <h2 class="text-xl font-semibold">{{ car.brand }} {{ car.model }}</h2>
-                <p>Год: {{ car.year }}</p>
-                <p>Цена в день: {{ car.price_per_day }}₽</p>
-                <a href="{% url 'car_detail' car.pk %}" class="text-indigo-600 hover:underline">Подробнее</a>
-            </li>
-        {% empty %}
-            <li>Автомобили не найдены</li>
-        {% endfor %}
-    </ul>
-</div>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Автопарк - Car Rental</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            margin: 30px 0;
+            color: #2c3e50;
+            font-size: 2.5rem;
+        }
+        
+        .cars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 20px;
+        }
+        
+        .car-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .car-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .car-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .car-info {
+            padding: 20px;
+        }
+        
+        .car-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .car-title {
+            font-size: 1.4rem;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        .car-price {
+            background: #3498db;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        .car-specs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        .car-spec {
+            display: flex;
+            align-items: center;
+        }
+        
+        .car-spec i {
+            margin-right: 5px;
+            color: #3498db;
+        }
+        
+        .car-description {
+            color: #555;
+            margin-bottom: 20px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .rent-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            text-align: center;
+            text-decoration: none;
+        }
+        
+        .rent-btn:hover {
+            background: #27ae60;
+        }
+        
+        @media (max-width: 768px) {
+            .cars-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Наш автопарк</h1>
+        
+        <div class="cars-grid">
+            <!-- Автомобиль 1 -->
+            <div class="car-card">
+                <img src="https://th.bing.com/th/id/R.ee3a8eb625b80e8a339ba413b6083356?rik=Tk7MxZN4EZNSRg&riu=http%3a%2f%2fwww.tflcar.com%2fwp-content%2fuploads%2f2017%2f06%2f2018-toyota-camry-se-hybrid.jpg&ehk=A1YTlinm5s08%2fAMXpOGFH6qUU8UmgruHhJBE1q6svlc%3d&risl=&pid=ImgRaw&r=0" alt="Toyota Camry" class="car-image">
+                <div class="car-info">
+                    <div class="car-header">
+                        <h2 class="car-title">Toyota Camry</h2>
+                        <span class="car-price">$50/день</span>
+                    </div>
+                    <div class="car-specs">
+                        <span class="car-spec"><i class="fas fa-car"></i> Седан</span>
+                        <span class="car-spec"><i class="fas fa-cogs"></i> Автомат</span>
+                        <span class="car-spec"><i class="fas fa-users"></i> 5 мест</span>
+                    </div>
+                    <p class="car-description">
+                        Современный седан с просторным салоном и экономичным двигателем. Идеален для городских поездок и путешествий.
+                    </p>
+                    <a href="#" class="rent-btn">Арендовать</a>
+                </div>
+            </div>
+            
+            <!-- Автомобиль 2 -->
+            <div class="car-card">
+                <img src="https://th.bing.com/th/id/R.a8eea639ecbbf86ebe877002931dece5?rik=fsYqO7vzy%2bgW0A&riu=http%3a%2f%2fwww.hdcarwallpapers.com%2fwalls%2f2015_bmw_x5_m-wide.jpg&ehk=gjmSxO00woacwrzIWcBxdtPR59cXVRa2ThgW2QoJlBY%3d&risl=&pid=ImgRaw&r=0" alt="BMW X5" class="car-image">
+                <div class="car-info">
+                    <div class="car-header">
+                        <h2 class="car-title">BMW X5</h2>
+                        <span class="car-price">$120/день</span>
+                    </div>
+                    <div class="car-specs">
+                        <span class="car-spec"><i class="fas fa-car"></i> Внедорожник</span>
+                        <span class="car-spec"><i class="fas fa-cogs"></i> Автомат</span>
+                        <span class="car-spec"><i class="fas fa-users"></i> 5 мест</span>
+                    </div>
+                    <p class="car-description">
+                        Премиальный внедорожник с мощным двигателем и роскошным интерьером. Для тех, кто ценит комфорт и статус.
+                    </p>
+                    <a href="#" class="rent-btn">Арендовать</a>
+                </div>
+            </div>
+            
+            <!-- Автомобиль 3 -->
+            <div class="car-card">
+                <img src="https://th.bing.com/th/id/OIP.b3LpvUqijeB7pX0dwV31OwHaEK?rs=1&pid=ImgDetMain" alt="Mercedes-Benz C-Class" class="car-image">
+                <div class="car-info">
+                    <div class="car-header">
+                        <h2 class="car-title">Mercedes C-Class</h2>
+                        <span class="car-price">$90/день</span>
+                    </div>
+                    <div class="car-specs">
+                        <span class="car-spec"><i class="fas fa-car"></i> Седан</span>
+                        <span class="car-spec"><i class="fas fa-cogs"></i> Автомат</span>
+                        <span class="car-spec"><i class="fas fa-users"></i> 5 мест</span>
+                    </div>
+                    <p class="car-description">
+                        Элегантный бизнес-седан с передовыми технологиями и непревзойденным комфортом. Стиль и надежность.
+                    </p>
+                    <a href="#" class="rent-btn">Арендовать</a>
+                </div>
+            </div>
+            
+            <!-- Автомобиль 4 -->
+            <div class="car-card">
+                <img src="https://images.lifestyleasia.com/wp-content/uploads/sites/7/2021/02/09014228/2021-Audi-A4-Front-scaled-1.jpg" alt="Audi A4" class="car-image">
+                <div class="car-info">
+                    <div class="car-header">
+                        <h2 class="car-title">Audi A4</h2>
+                        <span class="car-price">$75/день</span>
+                    </div>
+                    <div class="car-specs">
+                        <span class="car-spec"><i class="fas fa-car"></i> Седан</span>
+                        <span class="car-spec"><i class="fas fa-cogs"></i> Автомат</span>
+                        <span class="car-spec"><i class="fas fa-users"></i> 5 мест</span>
+                    </div>
+                    <p class="car-description">
+                        Динамичный седан с фирменным дизайном Audi и отличной управляемостью. Для водителей, ценящих драйв.
+                    </p>
+                    <a href="#" class="rent-btn">Арендовать</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
