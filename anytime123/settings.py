@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -137,7 +137,7 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'  # Для collectstatic (верно)
 STATICFILES_DIRS = [
     BASE_DIR / "car_rental/static",  # Указывает на вашу реальную папку static
 ]
-AUTH_USER_MODEL = 'your_app_name.CustomUser'  # Замените your_app_name на имя вашего приложения
+AUTH_USER_MODEL = 'accounts.CustomUser' # Замените your_app_name на имя вашего приложения
 
 
 MEDIA_URL = '/media/'

@@ -2,11 +2,13 @@ from django.contrib import admin
 from django.utils.html import format_html
 from django.contrib.auth.admin import UserAdmin
 from .models import CustomUser, Car, Booking, Review
+from accounts.models import CustomUser  # а не car_rental.models
+
 
 # Кастомная модель пользователя
 @admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
-    list_display = ('username', 'email', 'phone', 'driver_license', 'is_staff')
+    list_display = ('username', 'email', 'phone', 'driver_license')
     list_filter = ('is_staff', 'is_superuser', 'is_active')
     search_fields = ('username', 'email', 'phone', 'driver_license')
     fieldsets = (
@@ -25,7 +27,8 @@ class CustomUserAdmin(UserAdmin):
 # Модель автомобиля
 @admin.register(Car)
 class CarAdmin(admin.ModelAdmin):
-    list_display = ('brand', 'name', 'year', 'price_formatted', 'transmission_display', 'seats', 'image_preview')
+    list_display = ['id', 'name', 'price_per_day']  # Убедись, что price_per_day здесь есть
+    list_editable = ['price_per_day']
     list_filter = ('brand', 'year', 'transmission', 'seats')
     search_fields = ('brand', 'name')
     list_editable = ('price_per_day',)
