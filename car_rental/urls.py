@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import index  # Импортируем представление для главной страницы
-from car_rental.bookings.views import car_list, car_detail  # Указан полный путь к модулю
+from car_rental.bookings.views import car_list, car_detail 
+
 
 urlpatterns = [
     path('', index, name='index'),  # Главная страница
