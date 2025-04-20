@@ -5,7 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anytime Car Rental - Аренда автомобилей</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
+    <style> 
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 250px;
+}
+
+.dropdown-content input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.dropdown-content button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.dropdown-content button:hover {
+    background-color: #0056b3;
+}
+        
         :root {
             --primary: #3366ff;
             --primary-dark: #2541b2;
@@ -369,9 +404,17 @@
                     <a href="#conditions-section">Условия</a>
                     <a href="#">Контакты</a>
                 </div>
-                <a href="#" class="cta-button">Войти</a>
+                <button class="cta-button" onclick="toggleDropdown()">Войти</button>
+                <div id="dropdown" class="dropdown-content">
+                    <form>
+                        <h3>Войти</h3>
+                        <input type="text" placeholder="Логин" required>
+                        <input type="password" placeholder="Пароль" required>
+                        <button type="submit">Войти</button>
+                    </form>
             </nav>
         </div>
+
     </header>
 
     <!-- Hero Section -->
@@ -673,7 +716,7 @@
                 <div class="footer-column">
                     <h3>Мы в соцсетях</h3>
                     <div class="social-links">
-                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.instagram.com/amangeldi.e_/"><i class="fab fa-instagram"></i></a>
                         <a href="#"><i class="fab fa-facebook"></i></a>
                         <a href="#"><i class="fab fa-telegram"></i></a>
                         <a href="#"><i class="fab fa-whatsapp"></i></a>
@@ -685,5 +728,11 @@
             </div>
         </div>
     </footer>
+    <script>
+        function toggleDropdown() {
+            const dropdown = document.getElementById('dropdown');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+    </script>
 </body>
 </html>
