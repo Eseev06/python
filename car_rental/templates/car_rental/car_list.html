@@ -5,41 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anytime Car Rental - Аренда автомобилей</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style> 
-.dropdown-content {
-    display: none;
-    position: absolute;
-    top: 60px;
-    right: 20px;
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 250px;
-}
+    <style>
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            z-index: 1001;
+        }
 
-.dropdown-content input {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
+        .dropdown-content input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
 
-.dropdown-content button {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
+        .dropdown-content button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
 
-.dropdown-content button:hover {
-    background-color: #0056b3;
-}
+        .dropdown-content button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
         
         :root {
             --primary: #3366ff;
@@ -83,6 +84,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px 0;
+            position: relative;
         }
         
         .logo {
@@ -108,18 +110,60 @@
             color: var(--primary);
         }
         
-        .cta-button {
-            background-color: var(--primary);
-            color: white;
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .auth-button {
             padding: 10px 20px;
             border-radius: 5px;
             font-weight: 600;
             text-decoration: none;
-            transition: background 0.3s;
+            transition: all 0.3s;
+            border: 1px solid var(--primary);
+            background: white;
+            color: var(--primary);
+            cursor: pointer;
         }
         
-        .cta-button:hover {
-            background-color: var(--primary-dark);
+        .auth-button.primary {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+        }
+        
+        .auth-button:hover {
+            opacity: 0.9;
+        }
+        
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .tab-button {
+            flex: 1;
+            padding: 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--gray);
+        }
+        
+        .tab-button.active {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+        }
+        
+        .auth-form {
+            display: none;
+        }
+        
+        .auth-form.active {
+            display: block;
         }
         
         /* Hero Section */
@@ -388,6 +432,16 @@
             .condition-cards {
                 grid-template-columns: 1fr;
             }
+            
+            .auth-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .dropdown-content {
+                width: 90%;
+                right: 5%;
+            }
         }
     </style>
 </head>
@@ -396,7 +450,7 @@
     <header>
         <div class="container">
             <nav class="navbar">
-                <a href="#" class="logo">ANYTIME</a>
+                <a href="#" class="logo">CAR MADRID</a>
                 <div class="nav-links">
                     <a href="#">Главная</a>
                     <a href="#how-section">Как это работает</a>
@@ -404,17 +458,34 @@
                     <a href="#conditions-section">Условия</a>
                     <a href="#">Контакты</a>
                 </div>
-                <button class="cta-button" onclick="toggleDropdown()">Войти</button>
+                <div class="auth-buttons">
+                    <button class="auth-button" onclick="toggleDropdown('register')">Зарегистрироваться</button>
+                    <button class="auth-button primary" onclick="toggleDropdown('login')">Войти</button>
+                </div>
                 <div id="dropdown" class="dropdown-content">
-                    <form>
-                        <h3>Войти</h3>
+                    <div class="auth-tabs">
+                        <button class="tab-button active" onclick="switchTab('login')">Вход</button>
+                        <button class="tab-button" onclick="switchTab('register')">Регистрация</button>
+                    </div>
+                    
+                    <form id="login-form" class="auth-form active">
                         <input type="text" placeholder="Логин" required>
                         <input type="password" placeholder="Пароль" required>
                         <button type="submit">Войти</button>
                     </form>
+                    
+                    <form id="register-form" class="auth-form">
+                        <input type="text" placeholder="Имя" required>
+                        <input type="text" placeholder="Фамилия" required>
+                        <input type="email" placeholder="Email" required>
+                        <input type="tel" placeholder="Телефон" required>
+                        <input type="password" placeholder="Пароль" required>
+                        <input type="password" placeholder="Подтвердите пароль" required>
+                        <button type="submit">Зарегистрироваться</button>
+                    </form>
+                </div>
             </nav>
         </div>
-
     </header>
 
     <!-- Hero Section -->
@@ -481,7 +552,7 @@
             <div class="cars-grid">
                 <!-- Car 1 -->
                 <div class="car-card">
-                    <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Toyota Camry" class="car-image">
+                    <img src="https://th.bing.com/th/id/OIP.WB3FZD63DNS8bHnQa8fsGwHaHX?w=640&h=637&rs=1&pid=ImgDetMain" alt="Toyota Camry" class="car-image">
                     <div class="car-info">
                         <h3 class="car-title">Toyota Camry 2023</h3>
                         <div class="car-price">от 15 000 ₸/сутки</div>
@@ -729,10 +800,29 @@
         </div>
     </footer>
     <script>
-        function toggleDropdown() {
+        function toggleDropdown(formType) {
             const dropdown = document.getElementById('dropdown');
             dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+            
+            if (formType) {
+                switchTab(formType);
+            }
         }
-    </script>
-</body>
-</html>
+
+        function switchTab(tabName) {
+            // Переключение активных кнопок
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+                if (button.textContent.toLowerCase().includes(tabName)) {
+                    button.classList.add('active');
+                }
+            });
+            
+            // Переключение форм
+            document.querySelectorAll('.auth-form').forEach(form => {
+                form.classList.remove('active');
+            });
+            document.getElementById(`${tabName}-form`).classList.add('active');
+        }
+
+        // Закрытие dropdown
