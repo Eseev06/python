@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anytime Car Rental - Аренда автомобилей</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Anytime Car Rental - Аренда автомобилей</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
         .dropdown-content {
             display: none;
             position: absolute;
@@ -446,383 +447,339 @@
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="container">
-            <nav class="navbar">
-                <a href="#" class="logo">CAR MADRID</a>
-                <div class="nav-links">
-                    <a href="#">Главная</a>
-                    <a href="#how-section">Как это работает</a>
-                    <a href="#cars-section">Автопарк</a>
-                    <a href="#conditions-section">Условия</a>
-                    <a href="#">Контакты</a>
-                </div>
-                <div class="auth-buttons">
-                    <button class="auth-button" onclick="toggleDropdown('register')">Зарегистрироваться</button>
-                    <button class="auth-button primary" onclick="toggleDropdown('login')">Войти</button>
-                </div>
-                <div id="dropdown" class="dropdown-content">
-                    <div class="auth-tabs">
-                        <button class="tab-button active" onclick="switchTab('login')">Вход</button>
-                        <button class="tab-button" onclick="switchTab('register')">Регистрация</button>
+<!-- Header -->
+<header>
+<div class="container">
+<nav class="navbar">
+<a class="logo" href="#">CAR MADRID</a>
+<div class="nav-links">
+<a href="#">Главная</a>
+<a href="#how-section">Как это работает</a>
+<a href="#cars-section">Автопарк</a>
+<a href="#conditions-section">Условия</a>
+<a href="#">Контакты</a>
+</div>
+<div class="auth-buttons">
+<button class="auth-button" onclick="toggleDropdown('register')">Зарегистрироваться</button>
+<button class="auth-button primary" onclick="toggleDropdown('login')">Войти</button>
+</div>
+<div class="dropdown-content" id="dropdown">
+<div class="auth-tabs">
+<button class="tab-button active" onclick="switchTab('login')">Вход</button>
+<button class="tab-button" onclick="switchTab('register')">Регистрация</button>
+</div>
+<form class="auth-form active" id="login-form">
+<input placeholder="Логин" required="" type="text"/>
+<input placeholder="Пароль" required="" type="password"/>
+<button type="submit">Войти</button>
+</form>
+<form class="auth-form" id="register-form">
+<input placeholder="Имя" required="" type="text"/>
+<input placeholder="Фамилия" required="" type="text"/>
+<input placeholder="Email" required="" type="email"/>
+<input placeholder="Телефон" required="" type="tel"/>
+<input placeholder="Пароль" required="" type="password"/>
+<input placeholder="Подтвердите пароль" required="" type="password"/>
+<button type="submit">Зарегистрироваться</button>
+</form>
+</div>
+</nav>
+</div>
+</header>
+<!-- Hero Section -->
+<section class="hero">
+<div class="container">
+<div class="hero-content">
+<h1>Аренда автомобилей в любое время</h1>
+<p>Более 100 автомобилей на выбор. Бронируйте онлайн за 2 минуты.</p>
+<div class="search-box">
+<h3>Найти автомобиль</h3>
+<form>
+<input placeholder="Город или адрес" style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 5px;" type="text"/>
+<div style="display: flex; gap: 10px; margin-bottom: 15px;">
+<input style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" type="date"/>
+<input style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" type="date"/>
+</div>
+<button class="cta-button" style="width: 100%;" type="submit">Найти автомобиль</button>
+</form>
+</div>
+</div>
+</div>
+</section>
+<!-- How It Works Section -->
+<section class="section" id="how-section">
+<div class="container">
+<div class="section-title">
+<h2>Как это работает</h2>
+<p>Всего 3 простых шага чтобы арендовать автомобиль вашей мечты</p>
+</div>
+<div class="steps">
+<div class="step">
+<div class="step-icon">
+<i class="fas fa-car"></i>
+</div>
+<h3>Выберите автомобиль</h3>
+<p>Выберите из нашего большого автопарка автомобиль, который подходит именно вам</p>
+</div>
+<div class="step">
+<div class="step-icon">
+<i class="fas fa-calendar-check"></i>
+</div>
+<h3>Забронируйте дату</h3>
+<p>Укажите даты аренды и место получения автомобиля</p>
+</div>
+<div class="step">
+<div class="step-icon">
+<i class="fas fa-key"></i>
+</div>
+<h3>Получите ключи</h3>
+<p>Приезжайте в указанное место и забирайте свой автомобиль</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Cars Section -->
+<section class="cars-section">
+    <div class="container">
+        <h2>Наш автопарк</h2>
+        <p>Выберите автомобиль, который подходит именно вам</p>
+        <div class="cars-grid">
+            {% for car in cars %}
+            <div class="car-card">
+                <img src="{{ car.image.url }}" alt="{{ car.name }}" class="car-image">
+                <div class="car-info">
+                    <h3 class="car-title">{{ car.brand }} {{ car.name }}</h3>
+                    <div class="car-price">от {{ car.price_per_day }} ₸/сутки</div>
+                    <div class="car-features">
+                        <span class="car-feature"><i class="fas fa-gas-pump"></i> {{ car.get_transmission_display }}</span>
+                        <span class="car-feature"><i class="fas fa-user-friends"></i> {{ car.seats }} мест</span>
                     </div>
-                    
-                    <form id="login-form" class="auth-form active">
-                        <input type="text" placeholder="Логин" required>
-                        <input type="password" placeholder="Пароль" required>
-                        <button type="submit">Войти</button>
-                    </form>
-                    
-                    <form id="register-form" class="auth-form">
-                        <input type="text" placeholder="Имя" required>
-                        <input type="text" placeholder="Фамилия" required>
-                        <input type="email" placeholder="Email" required>
-                        <input type="tel" placeholder="Телефон" required>
-                        <input type="password" placeholder="Пароль" required>
-                        <input type="password" placeholder="Подтвердите пароль" required>
-                        <button type="submit">Зарегистрироваться</button>
-                    </form>
+                    <button class="cta-button">Арендовать</button>
                 </div>
-            </nav>
+            </div>
+            {% endfor %}
         </div>
-    </header>
+    </div>
+</section>
+<!-- Conditions Section -->
+<section class="conditions" id="conditions-section">
+<div class="container">
+<div class="section-title">
+<h2>Условия аренды</h2>
+<p>Правила и требования для аренды автомобиля</p>
+</div>
+<div class="condition-cards">
+<div class="condition-card">
+<h3>Требования к арендатору</h3>
+<ul>
+<li>Возраст от 21 года</li>
+<li>Водительский стаж не менее 2 лет</li>
+<li>Действующее водительское удостоверение</li>
+<li>Паспорт или удостоверение личности</li>
+<li>Депозит в размере 50% от стоимости аренды</li>
+</ul>
+</div>
+<div class="condition-card">
+<h3>Тарифы и оплата</h3>
+<ul>
+<li>Минимальный срок аренды - 1 сутки</li>
+<li>Оплата картой или наличными</li>
+<li>Бесплатный пробег 200 км/сутки</li>
+<li>Дополнительный километраж: 50 ₸/км</li>
+<li>Полная страховка включена в стоимость</li>
+</ul>
+</div>
+<div class="condition-card">
+<h3>Дополнительные услуги</h3>
+<ul>
+<li>Детское кресло: 2 000 ₸/сутки</li>
+<li>Навигатор: 1 500 ₸/сутки</li>
+<li>Доставка автомобиля: 5 000 ₸</li>
+<li>Дополнительный водитель: 3 000 ₸</li>
+<li>Зимние шины (в сезон): бесплатно</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer>
+<div class="container">
+<div class="footer-content">
+<div class="footer-column">
+<h3>Компания</h3>
+<ul>
+<li><a href="#">О нас</a></li>
+<li><a href="#">Команда</a></li>
+<li><a href="#">Карьера</a></li>
+<li><a href="#">Блог</a></li>
+</ul>
+</div>
+<div class="footer-column">
+<h3>Контакты</h3>
+<ul>
+<li><a href="#">+7 (777) 123-45-67</a></li>
+<li><a href="#">info@anytime.kz</a></li>
+<li><a href="#">г. Алматы, ул. Примерная 123</a></li>
+</ul>
+</div>
+<div class="footer-column">
+<h3>Помощь</h3>
+<ul>
+<li><a href="#">FAQ</a></li>
+<li><a href="#">Условия аренды</a></li>
+<li><a href="#">Политика конфиденциальности</a></li>
+</ul>
+</div>
+<div class="footer-column">
+<h3>Мы в соцсетях</h3>
+<div class="social-links">
+<a href="https://www.instagram.com/amangeldi.e_/"><i class="fab fa-instagram"></i></a>
+<a href="#"><i class="fab fa-facebook"></i></a>
+<a href="#"><i class="fab fa-telegram"></i></a>
+<a href="#"><i class="fab fa-whatsapp"></i></a>
+</div>
+</div>
+</div>
+<div class="copyright">
+<p>© 2023 Anytime Car Rental. Все права защищены.</p>
+</div>
+</div>
+</footer>
+<script></script>
+<!-- Модальное окно аренды -->
+<div class="modal" id="rentalModal">
+<div class="modal-content">
+<span class="close" onclick="closeRentalModal()">×</span>
+<img alt="Логотип" class="modal-logo" src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Logo_car.png"/>
+<h2>Свяжитесь с нами для аренды</h2>
+<p><strong>Телефон:</strong> +7 (777) 123-45-67</p>
+<p><strong>Email:</strong> info@anytime.kz</p>
+<p><strong>Адрес:</strong> г. Алматы, ул. Примерная 123</p>
+</div>
+</div>
+<style>
+/* Стили модального окна */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.6);
+}
+.modal-content {
+  background-color: #fff;
+  margin: 10% auto;
+  padding: 30px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+.modal-logo {
+  width: 100px;
+  margin-bottom: 20px;
+}
+.close {
+  position: absolute;
+  right: 20px;
+  top: 15px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #999;
+}
+.close:hover {
+  color: #333;
+}
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1>Аренда автомобилей в любое время</h1>
-                <p>Более 100 автомобилей на выбор. Бронируйте онлайн за 2 минуты.</p>
-                <div class="search-box">
-                    <h3>Найти автомобиль</h3>
-                    <form>
-                        <input type="text" placeholder="Город или адрес" style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 5px;">
-                        <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-                            <input type="date" style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
-                            <input type="date" style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
-                        </div>
-                        <button type="submit" class="cta-button" style="width: 100%;">Найти автомобиль</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
+/* Стили для кнопки Арендовать */
+.cta-button {
+  background-color: var(--secondary);
+  color: white !important;
+  padding: 12px 20px;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s;
+  text-decoration: none;
+  display: inline-block;
+}
+.cta-button:hover {
+  background-color: #0077a6;
+  transform: scale(1.05);
+}
+</style>
+<script>
+// Открытие и закрытие модального окна аренды
+function openRentalModal() {
+  document.getElementById('rentalModal').style.display = 'block';
+}
+function closeRentalModal() {
+  document.getElementById('rentalModal').style.display = 'none';
+}
+window.onclick = function(event) {
+  const modal = document.getElementById('rentalModal');
+  if (event.target === modal) {
+    closeRentalModal();
+  }
+}
 
-    <!-- How It Works Section -->
-    <section class="section" id="how-section">
-        <div class="container">
-            <div class="section-title">
-                <h2>Как это работает</h2>
-                <p>Всего 3 простых шага чтобы арендовать автомобиль вашей мечты</p>
-            </div>
-            <div class="steps">
-                <div class="step">
-                    <div class="step-icon">
-                        <i class="fas fa-car"></i>
-                    </div>
-                    <h3>Выберите автомобиль</h3>
-                    <p>Выберите из нашего большого автопарка автомобиль, который подходит именно вам</p>
-                </div>
-                <div class="step">
-                    <div class="step-icon">
-                        <i class="fas fa-calendar-check"></i>
-                    </div>
-                    <h3>Забронируйте дату</h3>
-                    <p>Укажите даты аренды и место получения автомобиля</p>
-                </div>
-                <div class="step">
-                    <div class="step-icon">
-                        <i class="fas fa-key"></i>
-                    </div>
-                    <h3>Получите ключи</h3>
-                    <p>Приезжайте в указанное место и забирайте свой автомобиль</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Cars Section -->
-    <section class="section bg-light" id="cars-section">
-        <div class="container">
-            <div class="section-title">
-                <h2>Наш автопарк</h2>
-                <p>Лучшие автомобили для любых потребностей</p>
-            </div>
-            <div class="cars-grid">
-                <!-- Car 1 -->
-                <div class="car-card">
-                    <img src="https://th.bing.com/th/id/OIP.WB3FZD63DNS8bHnQa8fsGwHaHX?w=640&h=637&rs=1&pid=ImgDetMain" alt="Toyota Camry" class="car-image">
-                    <div class="car-info">
-                        <h3 class="car-title">Toyota Camry 2023</h3>
-                        <div class="car-price">от 15 000 ₸/сутки</div>
-                        <div class="car-features">
-                            <span class="car-feature"><i class="fas fa-gas-pump"></i> Бензин</span>
-                            <span class="car-feature"><i class="fas fa-cogs"></i> Автомат</span>
-                            <span class="car-feature"><i class="fas fa-user-friends"></i> 5 мест</span>
-                            <span class="car-feature"><i class="fas fa-suitcase"></i> 2 багажа</span>
-                        </div>
-                        <a href="#" class="cta-button" style="display: block; text-align: center;">Арендовать</a>
-                    </div>
-                </div>
-                
-                <!-- Car 2 -->
-                <div class="car-card">
-                    <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2083&q=80" alt="Ford Mustang" class="car-image">
-                    <div class="car-info">
-                        <h3 class="car-title">Ford Mustang 2022</h3>
-                        <div class="car-price">от 25 000 ₸/сутки</div>
-                        <div class="car-features">
-                            <span class="car-feature"><i class="fas fa-gas-pump"></i> Бензин</span>
-                            <span class="car-feature"><i class="fas fa-cogs"></i> Автомат</span>
-                            <span class="car-feature"><i class="fas fa-user-friends"></i> 4 места</span>
-                            <span class="car-feature"><i class="fas fa-suitcase"></i> 2 багажа</span>
-                        </div>
-                        <a href="#" class="cta-button" style="display: block; text-align: center;">Арендовать</a>
-                    </div>
-                </div>
-                
-                <!-- Car 3 -->
-                <div class="car-card">
-                    <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Range Rover" class="car-image">
-                    <div class="car-info">
-                        <h3 class="car-title">Range Rover 2023</h3>
-                        <div class="car-price">от 35 000 ₸/сутки</div>
-                        <div class="car-features">
-                            <span class="car-feature"><i class="fas fa-gas-pump"></i> Дизель</span>
-                            <span class="car-feature"><i class="fas fa-cogs"></i> Автомат</span>
-                            <span class="car-feature"><i class="fas fa-user-friends"></i> 5 мест</span>
-                            <span class="car-feature"><i class="fas fa-suitcase"></i> 4 багажа</span>
-                        </div>
-                        <a href="#" class="cta-button" style="display: block; text-align: center;">Арендовать</a>
-                    </div>
-                </div>
-
-                <!-- Car 4 -->
-                <div class="car-card">
-                    <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Hyundai Tucson" class="car-image">
-                    <div class="car-info">
-                        <h3 class="car-title">Hyundai Tucson 2023</h3>
-                        <div class="car-price">от 18 000 ₸/сутки</div>
-                        <div class="car-features">
-                            <span class="car-feature"><i class="fas fa-gas-pump"></i> Бензин</span>
-                            <span class="car-feature"><i class="fas fa-cogs"></i> Автомат</span>
-                            <span class="car-feature"><i class="fas fa-user-friends"></i> 5 мест</span>
-                            <span class="car-feature"><i class="fas fa-suitcase"></i> 3 багажа</span>
-                        </div>
-                        <a href="#" class="cta-button" style="display: block; text-align: center;">Арендовать</a>
-                    </div>
-                </div>
-
-                <!-- Car 5 -->
-                <div class="car-card">
-                    <img src="https://images.unsplash.com/photo-1542362567-b07e54358753?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Mercedes S-Class" class="car-image">
-                    <div class="car-info">
-                        <h3 class="car-title">Mercedes S-Class 2023</h3>
-                        <div class="car-price">от 45 000 ₸/сутки</div>
-                        <div class="car-features">
-                            <span class="car-feature"><i class="fas fa-gas-pump"></i> Бензин</span>
-                            <span class="car-feature"><i class="fas fa-cogs"></i> Автомат</span>
-                            <span class="car-feature"><i class="fas fa-user-friends"></i> 5 мест</span>
-                            <span class="car-feature"><i class="fas fa-suitcase"></i> 3 багажа</span>
-                        </div>
-                        <a href="#" class="cta-button" style="display: block; text-align: center;">Арендовать</a>
-                    </div>
-                </div>
-
-                <!-- Car 6 -->
-                <div class="car-card">
-                    <img src="https://images.unsplash.com/photo-1553440569-bcc63803a83d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2025&q=80" alt="Toyota Land Cruiser" class="car-image">
-                    <div class="car-info">
-                        <h3 class="car-title">Toyota Land Cruiser</h3>
-                        <div class="car-price">от 40 000 ₸/сутки</div>
-                        <div class="car-features">
-                            <span class="car-feature"><i class="fas fa-gas-pump"></i> Дизель</span>
-                            <span class="car-feature"><i class="fas fa-cogs"></i> Автомат</span>
-                            <span class="car-feature"><i class="fas fa-user-friends"></i> 7 мест</span>
-                            <span class="car-feature"><i class="fas fa-suitcase"></i> 5 багажа</span>
-                        </div>
-                        <a href="#" class="cta-button" style="display: block; text-align: center;">Арендовать</a>
-                    </div>
-                </div>
-
-                <!-- Car 7 -->
-                <div class="car-card">
-                    <img src="https://images.unsplash.com/photo-1493238792000-8113da705763?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Chevrolet Spark" class="car-image">
-                    <div class="car-info">
-                        <h3 class="car-title">Chevrolet Spark 2022</h3>
-                        <div class="car-price">от 10 000 ₸/сутки</div>
-                        <div class="car-features">
-                            <span class="car-feature"><i class="fas fa-gas-pump"></i> Бензин</span>
-                            <span class="car-feature"><i class="fas fa-cogs"></i> Механика</span>
-                            <span class="car-feature"><i class="fas fa-user-friends"></i> 5 мест</span>
-                            <span class="car-feature"><i class="fas fa-suitcase"></i> 1 багаж</span>
-                        </div>
-                        <a href="#" class="cta-button" style="display: block; text-align: center;">Арендовать</a>
-                    </div>
-                </div>
-
-                <!-- Car 8 -->
-                <div class="car-card">
-                    <img src="https://images.unsplash.com/photo-1511919884226-fd3cad34687c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="BMW 5 Series" class="car-image">
-                    <div class="car-info">
-                        <h3 class="car-title">BMW 5 Series 2023</h3>
-                        <div class="car-price">от 30 000 ₸/сутки</div>
-                        <div class="car-features">
-                            <span class="car-feature"><i class="fas fa-gas-pump"></i> Бензин</span>
-                            <span class="car-feature"><i class="fas fa-cogs"></i> Автомат</span>
-                            <span class="car-feature"><i class="fas fa-user-friends"></i> 5 мест</span>
-                            <span class="car-feature"><i class="fas fa-suitcase"></i> 3 багажа</span>
-                        </div>
-                        <a href="#" class="cta-button" style="display: block; text-align: center;">Арендовать</a>
-                    </div>
-                </div>
-
-                <!-- Car 9 -->
-                <div class="car-card">
-                    <img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Lexus RX" class="car-image">
-                    <div class="car-info">
-                        <h3 class="car-title">Lexus RX 350</h3>
-                        <div class="car-price">от 32 000 ₸/сутки</div>
-                        <div class="car-features">
-                            <span class="car-feature"><i class="fas fa-gas-pump"></i> Бензин</span>
-                            <span class="car-feature"><i class="fas fa-cogs"></i> Автомат</span>
-                            <span class="car-feature"><i class="fas fa-user-friends"></i> 5 мест</span>
-                            <span class="car-feature"><i class="fas fa-suitcase"></i> 4 багажа</span>
-                        </div>
-                        <a href="#" class="cta-button" style="display: block; text-align: center;">Арендовать</a>
-                    </div>
-                </div>
-
-                <!-- Car 10 -->
-                <div class="car-card">
-                    <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Volkswagen Polo" class="car-image">
-                    <div class="car-info">
-                        <h3 class="car-title">Volkswagen Polo 2023</h3>
-                        <div class="car-price">от 12 000 ₸/сутки</div>
-                        <div class="car-features">
-                            <span class="car-feature"><i class="fas fa-gas-pump"></i> Бензин</span>
-                            <span class="car-feature"><i class="fas fa-cogs"></i> Автомат</span>
-                            <span class="car-feature"><i class="fas fa-user-friends"></i> 5 мест</span>
-                            <span class="car-feature"><i class="fas fa-suitcase"></i> 2 багажа</span>
-                        </div>
-                        <a href="#" class="cta-button" style="display: block; text-align: center;">Арендовать</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Conditions Section -->
-    <section class="conditions" id="conditions-section">
-        <div class="container">
-            <div class="section-title">
-                <h2>Условия аренды</h2>
-                <p>Правила и требования для аренды автомобиля</p>
-            </div>
-            <div class="condition-cards">
-                <div class="condition-card">
-                    <h3>Требования к арендатору</h3>
-                    <ul>
-                        <li>Возраст от 21 года</li>
-                        <li>Водительский стаж не менее 2 лет</li>
-                        <li>Действующее водительское удостоверение</li>
-                        <li>Паспорт или удостоверение личности</li>
-                        <li>Депозит в размере 50% от стоимости аренды</li>
-                    </ul>
-                </div>
-                <div class="condition-card">
-                    <h3>Тарифы и оплата</h3>
-                    <ul>
-                        <li>Минимальный срок аренды - 1 сутки</li>
-                        <li>Оплата картой или наличными</li>
-                        <li>Бесплатный пробег 200 км/сутки</li>
-                        <li>Дополнительный километраж: 50 ₸/км</li>
-                        <li>Полная страховка включена в стоимость</li>
-                    </ul>
-                </div>
-                <div class="condition-card">
-                    <h3>Дополнительные услуги</h3>
-                    <ul>
-                        <li>Детское кресло: 2 000 ₸/сутки</li>
-                        <li>Навигатор: 1 500 ₸/сутки</li>
-                        <li>Доставка автомобиля: 5 000 ₸</li>
-                        <li>Дополнительный водитель: 3 000 ₸</li>
-                        <li>Зимние шины (в сезон): бесплатно</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
-                    <h3>Компания</h3>
-                    <ul>
-                        <li><a href="#">О нас</a></li>
-                        <li><a href="#">Команда</a></li>
-                        <li><a href="#">Карьера</a></li>
-                        <li><a href="#">Блог</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Контакты</h3>
-                    <ul>
-                        <li><a href="#">+7 (777) 123-45-67</a></li>
-                        <li><a href="#">info@anytime.kz</a></li>
-                        <li><a href="#">г. Алматы, ул. Примерная 123</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Помощь</h3>
-                    <ul>
-                        <li><a href="#">FAQ</a></li>
-                        <li><a href="#">Условия аренды</a></li>
-                        <li><a href="#">Политика конфиденциальности</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Мы в соцсетях</h3>
-                    <div class="social-links">
-                        <a href="https://www.instagram.com/amangeldi.e_/"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-facebook"></i></a>
-                        <a href="#"><i class="fab fa-telegram"></i></a>
-                        <a href="#"><i class="fab fa-whatsapp"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>© 2023 Anytime Car Rental. Все права защищены.</p>
-            </div>
-        </div>
-    </footer>
-    <script>
-        function toggleDropdown(formType) {
-            const dropdown = document.getElementById('dropdown');
-            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-            
-            if (formType) {
-                switchTab(formType);
-            }
+// Назначить всем кнопкам "Арендовать" событие открытия модального окна
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.cta-button').forEach(button => {
+    button.addEventListener('click', function(event) {
+      event.preventDefault();
+      openRentalModal();
+    });
+  });
+});
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const dropdown = document.getElementById('dropdown');
+      const loginForm = document.getElementById('login-form');
+      const registerForm = document.getElementById('register-form');
+      const tabButtons = document.querySelectorAll('.tab-button');
+    
+      window.toggleDropdown = function(formType) {
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        switchTab(formType);
+      }
+    
+      window.switchTab = function(tabName) {
+        tabButtons.forEach(button => {
+          button.classList.remove('active');
+          if (button.textContent.toLowerCase().includes(tabName)) {
+            button.classList.add('active');
+          }
+        });
+    
+        loginForm.classList.remove('active');
+        registerForm.classList.remove('active');
+        if (tabName === 'login') {
+          loginForm.classList.add('active');
+        } else {
+          registerForm.classList.add('active');
         }
-
-        function switchTab(tabName) {
-            // Переключение активных кнопок
-            document.querySelectorAll('.tab-button').forEach(button => {
-                button.classList.remove('active');
-                if (button.textContent.toLowerCase().includes(tabName)) {
-                    button.classList.add('active');
-                }
-            });
-            
-            // Переключение форм
-            document.querySelectorAll('.auth-form').forEach(form => {
-                form.classList.remove('active');
-            });
-            document.getElementById(`${tabName}-form`).classList.add('active');
+      }
+    
+      // Закрытие dropdown по клику вне блока
+      document.addEventListener('click', function(event) {
+        const isClickInside = dropdown.contains(event.target) || event.target.matches('.auth-button');
+        if (!isClickInside) {
+          dropdown.style.display = 'none';
         }
-
-        // Закрытие dropdown
+      });
+    });
+    </script>
+    
+</body></html>
