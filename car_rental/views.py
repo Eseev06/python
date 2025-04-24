@@ -33,3 +33,9 @@ def my_bookings(request):
         'bookings_pending': bookings_pending,
         'bookings_confirmed': bookings_confirmed,
     })
+
+def faq(request):
+    """Представление для страницы FAQ"""
+    return render(request, 'car_rental/faq.html', {
+        'page_title': 'Вопрос-Ответ',
+    })

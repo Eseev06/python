@@ -7,6 +7,49 @@
 <title>REAL CAR - Аренда автомобилей</title>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
 <style>
+    .car-features {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 15px;
+        color: #555;
+    }
+    
+    .feature {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+    }
+    
+    .feature i {
+        color: #007bff;
+        font-size: 16px;
+    }
+    
+    .car-status .status {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 12px;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+    
+    .car-status .status.available {
+        background-color: #d4edda;
+        color: #155724;
+    }
+    
+    .car-status .status.pending {
+        background-color: #fff3cd;
+        color: #856404;
+    }
+    
+    .car-status .status.confirmed {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
         .dropdown-content {
             display: none;
             position: absolute;
@@ -456,6 +499,7 @@
 <a href="#">Главная</a>
 <a href="#how-section">Как это работает</a>
 <a href="#cars-section">Автопарк</a>
+<a href="/faq/">Вопрос-Ответ</a> 
 <a href="#conditions-section">Условия</a>
 <a href="#contacts-section">Контакты</a>
 </div>
@@ -550,29 +594,38 @@
      
         <!-- Список автомобилей -->
         <!-- filepath: c:\project\anytime123\car_rental\templates\car_rental\car_list.html -->
-        <div class="cars-grid">
-            {% for car in cars %}
-            <div class="car-card">
-                <img src="{{ car.image.url }}" alt="{{ car.name }}" class="car-image">
-                <div class="car-info">
-                    <h3 class="car-title">{{ car.brand }} {{ car.name }}</h3>
-                    <div class="car-price">от {{ car.price_per_day }} ₸/сутки</div>
-                    <div class="car-status">
-                        {% if car.status == 'available' %}
-                        <span style="color: green;">Свободен</span>
-                        {% elif car.status == 'pending' %}
-                        <span style="color: orange;">В ожидании</span>
-                        {% elif car.status == 'confirmed' %}
-                        <span style="color: red;">Занят</span>
-                        {% endif %}
-                    </div>
-                    {% if car.status == 'available' %}
-                    <button class="cta-button" onclick="openRentalModal()">Арендовать</button>
-                    {% endif %}
-                </div>
+ <!-- filepath: c:\project\anytime123\car_rental\templates\car_rental\car_list.html -->
+<!-- filepath: c:\project\anytime123\car_rental\templates\car_rental\car_list.html -->
+<!-- filepath: c:\project\anytime123\car_rental\templates\car_rental\car_list.html -->
+<!-- filepath: c:\project\anytime123\car_rental\templates\car_rental\car_list.html -->
+<div class="cars-grid">
+    {% for car in cars %}
+    <div class="car-card">
+        <img src="{{ car.image.url }}" alt="{{ car.name }}" class="car-image">
+        <div class="car-info">
+            <h3 class="car-title">{{ car.brand }} {{ car.name }}</h3>
+            <div class="car-price">от {{ car.price_per_day }} ₸/сутки</div>
+            <div class="car-status">
+                {% if car.status == 'available' %}
+                <span style="color: green;">Свободен</span>
+                {% elif car.status == 'pending' %}
+                <span style="color: orange;">В ожидании</span>
+                {% elif car.status == 'confirmed' %}
+                <span style="color: red;">Занят</span>
+                {% endif %}
             </div>
-            {% endfor %}
+            <!-- Краткие характеристики -->
+            <div class="car-features">
+                <p><strong>Год выпуска:</strong> {{ car.year }}</p>
+                <p><strong>Трансмиссия:</strong> {{ car.get_transmission_display }}</p>
+                <p><strong>Количество мест:</strong> {{ car.seats }}</p>
+            </div>
+            {% if car.status == 'available' %}
+            <button class="cta-button" onclick="openRentalModal()">Арендовать</button>
+            {% endif %}
         </div>
+    </div>
+    {% endfor %}
 </div>
     </div>
 </section>

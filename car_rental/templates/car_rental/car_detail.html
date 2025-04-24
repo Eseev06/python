@@ -1,0 +1,89 @@
+<!-- filepath: c:\project\anytime123\car_rental\templates\car_rental\car_detail.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ car.brand }} {{ car.name }}</title>
+    <style>
+        .tab-button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .tab-button.active {
+            background-color: #0056b3;
+        }
+        .tab-content {
+            display: none;
+            margin-top: 20px;
+        }
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+    <script>
+        function showTab(tabId) {
+            const tabs = document.querySelectorAll('.tab-content');
+            const buttons = document.querySelectorAll('.tab-button');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            buttons.forEach(button => button.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
+        }
+    </script>
+</head>
+<body>
+    <h2>{{ car.brand }} {{ car.name }}</h2>
+    <p>Цена: {{ car.price_per_day }} ₸/сутки</p>
+
+    <!-- Кнопки для переключения -->
+    <div>
+        <button class="tab-button active" data-tab="characteristics" onclick="showTab('characteristics')">Характеристики</button>
+        <button class="tab-button" data-tab="reviews" onclick="showTab('reviews')">Отзывы</button>
+    </div>
+
+    <!-- Секция характеристик -->
+    <div id="characteristics" class="tab-content active">
+        <h3>Характеристики</h3>
+        <p><strong>Марка:</strong> {{ car.brand }}</p>
+        <p><strong>Модель:</strong> {{ car.name }}</p>
+        <p><strong>Год выпуска:</strong> {{ car.year }}</p>
+        <p><strong>Трансмиссия:</strong> {{ car.get_transmission_display }}</p>
+        <p><strong>Количество мест:</strong> {{ car.seats }}</p>
+    </div>
+
+    <!-- Секция отзывов -->
+    <div id="reviews" class="tab-content">
+        <h3>Отзывы</h3>
+        <div class="reviews">
+            {% for review in reviews %}
+            <div class="review">
+                <strong>{{ review.user.username }}</strong> - {{ review.rating }} звёзд
+                <p>{{ review.comment }}</p>
+                <small>{{ review.created_at|date:"d.m.Y H:i" }}</small>
+            </div>
+            {% empty %}
+            <p>Отзывов пока нет. Будьте первым!</p>
+            {% endfor %}
+        </div>
+
+        <!-- Форма для добавления отзыва -->
+        {% if user.is_authenticated %}
+        <h3>Оставить отзыв</h3>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="cta-button">Отправить</button>
+        </form>
+        {% else %}
+        <p>Пожалуйста, <a href="{% url 'login' %}">войдите</a>, чтобы оставить отзыв.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
