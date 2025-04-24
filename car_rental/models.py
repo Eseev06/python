@@ -25,6 +25,12 @@ class Car(models.Model):
         ('Караганда', 'Караганда'),
         ('Актобе', 'Актобе'),
     ]
+    city = models.CharField(
+        max_length=100,
+        choices=CITY_CHOICES,
+        verbose_name='Город',
+        default='Алматы'
+    )
 
     name = models.CharField(max_length=100, verbose_name='Название')
     brand = models.CharField(max_length=100, verbose_name='Марка')
@@ -41,12 +47,7 @@ class Car(models.Model):
         verbose_name='Коробка передач'
     )
     seats = models.PositiveIntegerField(default=5, verbose_name='Количество мест')
-    city = models.CharField(
-        max_length=100,
-        choices=CITY_CHOICES,
-        verbose_name='Город',
-        default='Алматы'
-    )
+    
     image = models.ImageField(upload_to='cars/', blank=True, null=True, verbose_name='Изображение')
 
     def __str__(self):

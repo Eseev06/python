@@ -457,7 +457,7 @@
 <a href="#how-section">Как это работает</a>
 <a href="#cars-section">Автопарк</a>
 <a href="#conditions-section">Условия</a>
-<a href="#">Контакты</a>
+<a href="#contacts-section">Контакты</a>
 </div>
 <div class="auth-buttons">
 <button class="auth-button" onclick="toggleDropdown('register')">Зарегистрироваться</button>
@@ -490,14 +490,13 @@
 <section class="hero">
 <div class="container">
 <div class="hero-content">
-<!-- filepath: c:\project\anytime123\car_rental\templates\car_rental\car_list.html -->
 <h1>Аренда автомобилей в любое время</h1>
 <p>Более 100 автомобилей на выбор. Бронируйте онлайн за 2 минуты.</p>
 <div class="search-box">
     <h3>Найти автомобиль</h3>
     <form method="get" action="">
         <label for="city">Выберите город:</label>
-        <select name="city" id="city" style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 5px;" onchange="this.form.submit()">
+        <select name="city" id="city" style="width: 100%; padding: 10px; margin-bottom: 15px;" onchange="this.form.submit()">
             <option value="">Все города</option>
             {% for city in cities %}
             <option value="{{ city }}" {% if selected_city == city %}selected{% endif %}>{{ city }}</option>
@@ -542,25 +541,13 @@
 </div>
 </section>
 <!-- Cars Section -->
-<!-- filepath: c:\project\anytime123\car_rental\templates\car_rental\car_list.html -->
-<section class="cars-section">
+<section class="cars-section" id="cars-section">
     <div class="container">
         <h2>Наш автопарк</h2>
         <p>Выберите автомобиль, который подходит именно вам</p>
+        <!-- filepath: c:\project\anytime123\car_rental\templates\car_rental\car_list.html -->
 
-        <!-- Форма фильтрации -->
-        <div class="filter-section">
-            <form method="get" action="">
-                <label for="city">Выберите город:</label>
-                <select name="city" id="city" onchange="this.form.submit()">
-                    <option value="">Все города</option>
-                    {% for city in cities %}
-                    <option value="{{ city }}" {% if selected_city == city %}selected{% endif %}>{{ city }}</option>
-                    {% endfor %}
-                </select>
-            </form>
-        </div>
-
+     
         <!-- Список автомобилей -->
         <div class="cars-grid">
             {% for car in cars %}
@@ -581,24 +568,7 @@
         </div>
     </div>
 </section>
-        <div class="cars-grid">
-            {% for car in cars %}
-            <div class="car-card">
-                <img src="{{ car.image.url }}" alt="{{ car.name }}" class="car-image">
-                <div class="car-info">
-                    <h3 class="car-title">{{ car.brand }} {{ car.name }}</h3>
-                    <div class="car-price">от {{ car.price_per_day }} ₸/сутки</div>
-                    <div class="car-features">
-                        <span class="car-feature"><i class="fas fa-gas-pump"></i> {{ car.get_transmission_display }}</span>
-                        <span class="car-feature"><i class="fas fa-user-friends"></i> {{ car.seats }} мест</span>
-                    </div>
-                    <button class="cta-button">Арендовать</button>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-</section>
+        
 <!-- Conditions Section -->
 <section class="conditions" id="conditions-section">
 <div class="container">
@@ -641,7 +611,7 @@
 </div>
 </section>
 <!-- Footer -->
-<footer>
+<footer id="contacts-section">
 <div class="container">
 <div class="footer-content">
 <div class="footer-column">
