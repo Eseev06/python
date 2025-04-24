@@ -27,15 +27,14 @@ class CustomUserAdmin(UserAdmin):
 # Модель автомобиля
 @admin.register(Car)
 class CarAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'price_per_day']  # Убедись, что price_per_day здесь есть
-    list_editable = ['price_per_day']
-    list_filter = ('brand', 'year', 'transmission', 'seats')
-    search_fields = ('brand', 'name')
-    list_editable = ('price_per_day',)
+    list_display = ['id', 'name', 'brand', 'price_per_day', 'city']  # Добавляем поле "Город"
+    list_editable = ['price_per_day', 'city']  # Делаем поле "Город" редактируемым
+    list_filter = ('brand', 'year', 'transmission', 'seats', 'city')  # Добавляем фильтр по городу
+    search_fields = ('brand', 'name', 'city')  # Добавляем поиск по городу
     readonly_fields = ('image_preview',)
     fieldsets = (
         (None, {
-            'fields': ('brand', 'name', 'year')
+            'fields': ('brand', 'name', 'year', 'city')  # Добавляем поле "Город" в секцию
         }),
         ('Технические характеристики', {
             'fields': ('transmission', 'seats', 'price_per_day')
@@ -58,17 +57,6 @@ class CarAdmin(admin.ModelAdmin):
             return format_html('<img src="{}" style="max-height: 100px; max-width: 150px;" />', obj.image.url)
         return "Нет изображения"
     image_preview.short_description = 'Превью'
-
-# Модель бронирования
-def clean(self):
-        # Проверяем пересечение дат
-        overlapping_bookings = Booking.objects.filter(
-            car=self.car,
-            start_date__lt=self.end_date,
-            end_date__gt=self.start_date
-        ).exclude(pk=self.pk)
-        if overlapping_bookings.exists():
-            raise ValidationError('На выбранные даты машина уже забронирована.')
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
     list_display = ('user', 'car', 'rating_stars', 'short_comment', 'created_at')

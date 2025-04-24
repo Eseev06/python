@@ -490,18 +490,21 @@
 <section class="hero">
 <div class="container">
 <div class="hero-content">
+<!-- filepath: c:\project\anytime123\car_rental\templates\car_rental\car_list.html -->
 <h1>Аренда автомобилей в любое время</h1>
 <p>Более 100 автомобилей на выбор. Бронируйте онлайн за 2 минуты.</p>
 <div class="search-box">
-<h3>Найти автомобиль</h3>
-<form>
-<input placeholder="Город или адрес" style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 5px;" type="text"/>
-<div style="display: flex; gap: 10px; margin-bottom: 15px;">
-<input style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" type="date"/>
-<input style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" type="date"/>
-</div>
-<button class="cta-button" style="width: 100%;" type="submit">Найти автомобиль</button>
-</form>
+    <h3>Найти автомобиль</h3>
+    <form method="get" action="">
+        <label for="city">Выберите город:</label>
+        <select name="city" id="city" style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 5px;" onchange="this.form.submit()">
+            <option value="">Все города</option>
+            {% for city in cities %}
+            <option value="{{ city }}" {% if selected_city == city %}selected{% endif %}>{{ city }}</option>
+            {% endfor %}
+        </select>
+        <button class="cta-button" style="width: 100%;" type="submit">Найти автомобиль</button>
+    </form>
 </div>
 </div>
 </div>
@@ -539,11 +542,7 @@
 </div>
 </section>
 <!-- Cars Section -->
-<section class="cars-section">
-    <div class="container">
-        <h2>Наш автопарк</h2>
-        <p>Выберите автомобиль, который подходит именно вам</p>
-        <!-- filepath: c:\project\anytime123\car_rental\templates\car_rental\car_list.html -->
+<!-- filepath: c:\project\anytime123\car_rental\templates\car_rental\car_list.html -->
 <section class="cars-section">
     <div class="container">
         <h2>Наш автопарк</h2>

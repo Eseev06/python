@@ -17,7 +17,15 @@ class Car(models.Model):
         ('manual', 'Механическая'),
         ('automatic', 'Автоматическая'),
     ]
-    
+
+    CITY_CHOICES = [
+        ('Алматы', 'Алматы'),
+        ('Нур-Султан', 'Нур-Султан'),
+        ('Шымкент', 'Шымкент'),
+        ('Караганда', 'Караганда'),
+        ('Актобе', 'Актобе'),
+    ]
+
     name = models.CharField(max_length=100, verbose_name='Название')
     brand = models.CharField(max_length=100, verbose_name='Марка')
     year = models.IntegerField(verbose_name='Год выпуска')
@@ -32,14 +40,17 @@ class Car(models.Model):
         default='automatic',
         verbose_name='Коробка передач'
     )
-    
     seats = models.PositiveIntegerField(default=5, verbose_name='Количество мест')
-    city = models.CharField(max_length=100, verbose_name='Город', default='Алматы')
+    city = models.CharField(
+        max_length=100,
+        choices=CITY_CHOICES,
+        verbose_name='Город',
+        default='Алматы'
+    )
     image = models.ImageField(upload_to='cars/', blank=True, null=True, verbose_name='Изображение')
 
     def __str__(self):
         return f"{self.brand} {self.name} ({self.year})"
-
 class Booking(models.Model):
     STATUS_CHOICES = [
         ('pending', 'Ожидание'),
