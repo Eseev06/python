@@ -60,42 +60,15 @@ class CarAdmin(admin.ModelAdmin):
     image_preview.short_description = 'Превью'
 
 # Модель бронирования
-@admin.register(Booking)
-class BookingAdmin(admin.ModelAdmin):
-    list_display = ('user', 'car', 'date_range', 'status_display', 'created_at')
-    list_filter = ('status', 'start_date', 'end_date')
-    search_fields = ('user__username', 'car__brand', 'car__name')
-    date_hierarchy = 'created_at'
-    raw_id_fields = ('user', 'car')
-    actions = ['mark_as_confirmed', 'mark_as_canceled']
-
-    def date_range(self, obj):
-        return f"{obj.start_date} - {obj.end_date}"
-    date_range.short_description = 'Период'
-
-    def status_display(self, obj):
-        status_colors = {
-            'pending': 'orange',
-            'confirmed': 'green',
-            'canceled': 'red',
-            'completed': 'blue'
-        }
-        return format_html(
-            '<span style="color: {};">{}</span>',
-            status_colors.get(obj.status, 'black'),
-            obj.get_status_display()
-        )
-    status_display.short_description = 'Статус'
-
-    @admin.action(description='Подтвердить выбранные бронирования')
-    def mark_as_confirmed(self, request, queryset):
-        queryset.update(status='confirmed')
-
-    @admin.action(description='Отменить выбранные бронирования')
-    def mark_as_canceled(self, request, queryset):
-        queryset.update(status='canceled')
-
-# Модель отзыва
+def clean(self):
+        # Проверяем пересечение дат
+        overlapping_bookings = Booking.objects.filter(
+            car=self.car,
+            start_date__lt=self.end_date,
+            end_date__gt=self.start_date
+        ).exclude(pk=self.pk)
+        if overlapping_bookings.exists():
+            raise ValidationError('На выбранные даты машина уже забронирована.')
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
     list_display = ('user', 'car', 'rating_stars', 'short_comment', 'created_at')

@@ -68,6 +68,15 @@ class Booking(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.car} ({self.status})"
+    def clean(self):
+        # Проверяем пересечение дат
+        overlapping_bookings = Booking.objects.filter(
+            car=self.car,
+            start_date__lt=self.end_date,
+            end_date__gt=self.start_date
+        ).exclude(pk=self.pk)
+        if overlapping_bookings.exists():
+            raise ValidationError('На выбранные даты машина уже забронирована.')
 
 class Review(models.Model):
     user = models.ForeignKey(
