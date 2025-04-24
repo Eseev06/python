@@ -543,6 +543,45 @@
     <div class="container">
         <h2>Наш автопарк</h2>
         <p>Выберите автомобиль, который подходит именно вам</p>
+        <!-- filepath: c:\project\anytime123\car_rental\templates\car_rental\car_list.html -->
+<section class="cars-section">
+    <div class="container">
+        <h2>Наш автопарк</h2>
+        <p>Выберите автомобиль, который подходит именно вам</p>
+
+        <!-- Форма фильтрации -->
+        <div class="filter-section">
+            <form method="get" action="">
+                <label for="city">Выберите город:</label>
+                <select name="city" id="city" onchange="this.form.submit()">
+                    <option value="">Все города</option>
+                    {% for city in cities %}
+                    <option value="{{ city }}" {% if selected_city == city %}selected{% endif %}>{{ city }}</option>
+                    {% endfor %}
+                </select>
+            </form>
+        </div>
+
+        <!-- Список автомобилей -->
+        <div class="cars-grid">
+            {% for car in cars %}
+            <div class="car-card">
+                <img src="{{ car.image.url }}" alt="{{ car.name }}" class="car-image">
+                <div class="car-info">
+                    <h3 class="car-title">{{ car.brand }} {{ car.name }}</h3>
+                    <div class="car-price">от {{ car.price_per_day }} ₸/сутки</div>
+                    <div class="car-features">
+                        <span class="car-feature"><i class="fas fa-gas-pump"></i> {{ car.get_transmission_display }}</span>
+                        <span class="car-feature"><i class="fas fa-user-friends"></i> {{ car.seats }} мест</span>
+                        <span class="car-feature"><i class="fas fa-map-marker-alt"></i> {{ car.city }}</span>
+                    </div>
+                    <button class="cta-button">Арендовать</button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
         <div class="cars-grid">
             {% for car in cars %}
             <div class="car-card">

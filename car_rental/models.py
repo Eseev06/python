@@ -32,7 +32,9 @@ class Car(models.Model):
         default='automatic',
         verbose_name='Коробка передач'
     )
+    
     seats = models.PositiveIntegerField(default=5, verbose_name='Количество мест')
+    city = models.CharField(max_length=100, verbose_name='Город', default='Алматы')
     image = models.ImageField(upload_to='cars/', blank=True, null=True, verbose_name='Изображение')
 
     def __str__(self):
