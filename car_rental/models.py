@@ -31,10 +31,16 @@ class Car(models.Model):
         verbose_name='Город',
         default='Алматы'
     )
+    STATUS_CHOICES = [
+        ('available', 'Свободен'),
+        ('pending', 'В ожидании'),
+        ('confirmed', 'Занят'),
+    ]
 
     name = models.CharField(max_length=100, verbose_name='Название')
     brand = models.CharField(max_length=100, verbose_name='Марка')
     year = models.IntegerField(verbose_name='Год выпуска')
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='available', verbose_name='Статус') 
     price_per_day = models.DecimalField(
         max_digits=10, 
         decimal_places=2,

@@ -27,14 +27,14 @@ class CustomUserAdmin(UserAdmin):
 # Модель автомобиля
 @admin.register(Car)
 class CarAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'brand', 'price_per_day', 'city']  # Добавляем поле "Город"
-    list_editable = ['price_per_day', 'city']  # Делаем поле "Город" редактируемым
-    list_filter = ('brand', 'year', 'transmission', 'seats', 'city')  # Добавляем фильтр по городу
-    search_fields = ('brand', 'name', 'city')  # Добавляем поиск по городу
+    list_display = ['id', 'name', 'brand', 'price_per_day', 'city', 'status']  # Добавляем статус в список
+    list_editable = ['price_per_day', 'city', 'status']  # Делаем статус редактируемым
+    list_filter = ('brand', 'year', 'transmission', 'seats', 'city', 'status')  # Добавляем фильтр по статусу
+    search_fields = ('brand', 'name', 'city')  # Поиск по полям
     readonly_fields = ('image_preview',)
     fieldsets = (
         (None, {
-            'fields': ('brand', 'name', 'year', 'city')  # Добавляем поле "Город" в секцию
+            'fields': ('brand', 'name', 'year', 'city', 'status')  # Добавляем статус в секцию
         }),
         ('Технические характеристики', {
             'fields': ('transmission', 'seats', 'price_per_day')
@@ -43,6 +43,18 @@ class CarAdmin(admin.ModelAdmin):
             'fields': ('image', 'image_preview')
         }),
     )
+
+    def image_preview(self, obj):
+        if obj.image:
+            return format_html('<img src="{}" style="max-height: 100px; max-width: 150px;" />', obj.image.url)
+        return "Нет изображения"
+    image_preview.short_description = 'Превью'
+
+    def image_preview(self, obj):
+        if obj.image:
+            return format_html('<img src="{}" style="max-height: 100px; max-width: 150px;" />', obj.image.url)
+        return "Нет изображения"
+    image_preview.short_description = 'Превью'
 
     def price_formatted(self, obj):
         return f"${obj.price_per_day}/день"

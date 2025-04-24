@@ -549,6 +549,7 @@
 
      
         <!-- Список автомобилей -->
+        <!-- filepath: c:\project\anytime123\car_rental\templates\car_rental\car_list.html -->
         <div class="cars-grid">
             {% for car in cars %}
             <div class="car-card">
@@ -556,16 +557,23 @@
                 <div class="car-info">
                     <h3 class="car-title">{{ car.brand }} {{ car.name }}</h3>
                     <div class="car-price">от {{ car.price_per_day }} ₸/сутки</div>
-                    <div class="car-features">
-                        <span class="car-feature"><i class="fas fa-gas-pump"></i> {{ car.get_transmission_display }}</span>
-                        <span class="car-feature"><i class="fas fa-user-friends"></i> {{ car.seats }} мест</span>
-                        <span class="car-feature"><i class="fas fa-map-marker-alt"></i> {{ car.city }}</span>
+                    <div class="car-status">
+                        {% if car.status == 'available' %}
+                        <span style="color: green;">Свободен</span>
+                        {% elif car.status == 'pending' %}
+                        <span style="color: orange;">В ожидании</span>
+                        {% elif car.status == 'confirmed' %}
+                        <span style="color: red;">Занят</span>
+                        {% endif %}
                     </div>
-                    <button class="cta-button">Арендовать</button>
+                    {% if car.status == 'available' %}
+                    <button class="cta-button" onclick="openRentalModal()">Арендовать</button>
+                    {% endif %}
                 </div>
             </div>
             {% endfor %}
         </div>
+</div>
     </div>
 </section>
         

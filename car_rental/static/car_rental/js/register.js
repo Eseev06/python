@@ -3,29 +3,46 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (form) {
         form.addEventListener('submit', function(e) {
-            const password1 = document.getElementById('id_password1').value;
-            const password2 = document.getElementById('id_password2').value;
-            const terms = document.getElementById('id_terms').checked;
-            
-            if (password1 !== password2) {
-                e.preventDefault();
-                alert('Пароли не совпадают!');
-                document.getElementById('id_password1').focus();
-                return;
+            const password1 = document.getElementById('id_password1');
+            const password2 = document.getElementById('id_password2');
+            const terms = document.getElementById('id_terms');
+            let isValid = true;
+
+            // Очистка предыдущих сообщений об ошибках
+            document.querySelectorAll('.error-message').forEach(el => el.remove());
+
+            // Проверка совпадения паролей
+            if (password1.value !== password2.value) {
+                isValid = false;
+                showError(password1, 'Пароли не совпадают!');
+                showError(password2, 'Пароли не совпадают!');
             }
-            
-            if (password1.length < 8) {
-                e.preventDefault();
-                alert('Пароль должен содержать минимум 8 символов!');
-                document.getElementById('id_password1').focus();
-                return;
+
+            // Проверка длины пароля
+            if (password1.value.length < 8) {
+                isValid = false;
+                showError(password1, 'Пароль должен содержать минимум 8 символов!');
             }
-            
-            if (!terms) {
+
+            // Проверка согласия с условиями
+            if (!terms.checked) {
+                isValid = false;
+                showError(terms, 'Необходимо согласиться с условиями использования!');
+            }
+
+            if (!isValid) {
                 e.preventDefault();
-                alert('Необходимо согласиться с условиями использования!');
-                return;
             }
         });
+    }
+
+    function showError(element, message) {
+        const error = document.createElement('div');
+        error.className = 'error-message';
+        error.style.color = 'red';
+        error.style.fontSize = '12px';
+        error.textContent = message;
+        element.parentNode.appendChild(error);
+        element.focus();
     }
 });
