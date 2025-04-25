@@ -1,7 +1,223 @@
-<!-- accounts/profile.html -->
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Добро пожаловать, {{ user.username }}!</h1>
-    <p>Это ваша страница профиля.</p>
+<div class="profile-wrapper">
+    <div class="profile-card">
+        <div class="profile-header">
+            <div class="avatar-circle">
+                {{ user.username|first|upper }}
+            </div>
+            <h2 class="profile-greeting">Привет, <span>{{ user.username }}</span>!</h2>
+            <p class="profile-subtitle">Добро пожаловать в ваш профиль</p>
+        </div>
+
+        <div class="profile-details">
+            <div class="detail-item">
+                <i class="icon">✉️</i>
+                <div>
+                    <p class="detail-label">Email</p>
+                    <p class="detail-value">{{ user.email }}</p>
+                </div>
+            </div>
+
+            <div class="detail-item">
+                <i class="icon">📅</i>
+                <div>
+                    <p class="detail-label">Дата регистрации</p>
+                    <p class="detail-value">{{ user.date_joined|date:"d E Y" }}</p>
+                </div>
+            </div>
+        </div>
+
+       <!-- filepath: c:\project\anytime123\accounts\templates\accounts\profile.html -->
+<div class="profile-actions">
+    <a href="/" class="home-btn">
+        <span>На главную</span>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 9L12 3L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M9 22V12H15V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </a>
+    <a href="{% url 'logout' %}" class="logout-btn">
+        <span>Выйти</span>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M16 17L21 12L16 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M21 12H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </a>
+</div>
+    </div>
+</div>
+
+<style>
+    :root {
+        --primary-color: #4361ee;
+        --primary-light: #4895ef;
+        --secondary-color: #3f37c9;
+        --dark-color: #1b263b;
+        --light-color: #f8f9fa;
+        --success-color: #4cc9f0;
+        --danger-color: #f72585;
+        --border-radius: 12px;
+        --box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .profile-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: calc(100vh - 100px);
+        padding: 20px;
+        background-color: #f5f7ff;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .profile-card {
+        width: 100%;
+        max-width: 480px;
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+        overflow: hidden;
+        transition: var(--transition);
+        animation: fadeIn 0.6s ease-out;
+    }
+
+    .profile-header {
+        padding: 30px 30px 20px;
+        text-align: center;
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+        color: white;
+        position: relative;
+    }
+
+    .avatar-circle {
+        width: 80px;
+        height: 80px;
+        background: white;
+        border-radius: 50%;
+        margin: 0 auto 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 36px;
+        font-weight: bold;
+        color: var(--primary-color);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .profile-greeting {
+        margin: 0;
+        font-size: 24px;
+        font-weight: 600;
+    }
+
+    .profile-greeting span {
+        font-weight: 700;
+    }
+
+    .profile-subtitle {
+        margin: 8px 0 0;
+        opacity: 0.9;
+        font-size: 14px;
+    }
+
+    .profile-details {
+        padding: 25px 30px;
+    }
+
+    .detail-item {
+        display: flex;
+        align-items: center;
+        padding: 15px 0;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .detail-item:last-child {
+        border-bottom: none;
+    }
+
+    .icon {
+        margin-right: 15px;
+        font-size: 20px;
+        opacity: 0.8;
+    }
+
+    .detail-label {
+        margin: 0;
+        font-size: 12px;
+        color: #6c757d;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .detail-value {
+        margin: 5px 0 0;
+        font-size: 16px;
+        font-weight: 500;
+        color: var(--dark-color);
+    }
+
+    .profile-actions {
+        padding: 0 30px 30px;
+    }
+
+    .logout-btn {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding: 12px 20px;
+        background-color: white;
+        color: var(--danger-color);
+        border: 1px solid rgba(247, 37, 133, 0.3);
+        border-radius: var(--border-radius);
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+        text-decoration: none;
+    }
+
+    .logout-btn:hover {
+        background-color: var(--danger-color);
+        color: white;
+        box-shadow: 0 5px 15px rgba(247, 37, 133, 0.3);
+        transform: translateY(-2px);
+    }
+
+    .logout-btn svg {
+        transition: var(--transition);
+    }
+
+    .logout-btn:hover svg {
+        transform: translateX(3px);
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 576px) {
+        .profile-card {
+            max-width: 100%;
+        }
+        
+        .profile-header {
+            padding: 25px 20px 15px;
+        }
+        
+        .avatar-circle {
+            width: 70px;
+            height: 70px;
+            font-size: 32px;
+        }
+        
+        .profile-greeting {
+            font-size: 22px;
+        }
+    }
+</style>
 {% endblock %}

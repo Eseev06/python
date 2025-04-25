@@ -2,6 +2,221 @@
 {% load static %}
 
 {% block content %}
+<style>
+    :root {
+        --primary: #3366ff;
+        --primary-light: #e6f0ff;
+        --primary-dark: #2541b2;
+        --secondary: #00b4d8;
+        --light: #f8f9fa;
+        --dark: #212529;
+        --gray: #6c757d;
+        --light-gray: #f1f3f5;
+        --white: #ffffff;
+    }
+    
+    .registration-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 80px 20px 40px;
+        background-color: var(--light-gray);
+        background-image: linear-gradient(135deg, var(--primary-light) 0%, var(--light-gray) 100%);
+    }
+    
+    .registration-card {
+        background: var(--white);
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(51, 102, 255, 0.1);
+        padding: 50px;
+        width: 100%;
+        max-width: 520px;
+        margin: 0 auto;
+        border: 1px solid rgba(51, 102, 255, 0.1);
+    }
+    
+    .registration-title {
+        font-size: 28px;
+        color: var(--primary);
+        margin-bottom: 30px;
+        text-align: center;
+        font-weight: 700;
+        position: relative;
+        padding-bottom: 15px;
+    }
+    
+    .registration-title:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 3px;
+        background: var(--primary);
+        border-radius: 3px;
+    }
+    
+    .registration-form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .form-group label {
+        font-weight: 600;
+        color: var(--dark);
+        font-size: 14px;
+    }
+    
+    .form-group input {
+        padding: 14px 16px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: all 0.3s;
+        background-color: var(--light-gray);
+    }
+    
+    .form-group input:focus {
+        border-color: var(--primary);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(51, 102, 255, 0.1);
+        background-color: var(--white);
+    }
+    
+    .form-text {
+        font-size: 13px;
+        color: var(--gray);
+        margin-top: 4px;
+    }
+    
+    .alert-danger {
+        color: #721c24;
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+        padding: 12px 16px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-size: 14px;
+    }
+    
+    .error-message {
+        margin-bottom: 5px;
+    }
+    
+    .form-check {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        margin: 15px 0;
+    }
+    
+    .form-check input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        margin-top: 3px;
+        accent-color: var(--primary);
+        cursor: pointer;
+    }
+    
+    .form-check-label {
+        font-size: 14px;
+        color: var(--dark);
+        cursor: pointer;
+    }
+    
+    .terms-link {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 500;
+    }
+    
+    .terms-link:hover {
+        text-decoration: underline;
+    }
+    
+    .btn-register {
+        background-color: var(--primary);
+        color: white;
+        padding: 15px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        margin-top: 10px;
+        box-shadow: 0 4px 12px rgba(51, 102, 255, 0.2);
+    }
+    
+    .btn-register:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(51, 102, 255, 0.3);
+    }
+    
+    .login-link {
+        text-align: center;
+        margin-top: 25px;
+        color: var(--gray);
+        font-size: 15px;
+    }
+    
+    .login-link a {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 500;
+    }
+    
+    .login-link a:hover {
+        text-decoration: underline;
+    }
+    
+    /* Стили для поля телефона */
+    .phone-input-container {
+        position: relative;
+    }
+    
+    .phone-prefix {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--gray);
+        font-size: 16px;
+        pointer-events: none;
+    }
+    
+    #id_phone {
+        padding-left: 50px !important;
+    }
+    
+    @media (max-width: 576px) {
+        .registration-card {
+            padding: 30px 20px;
+            box-shadow: none;
+            border: none;
+        }
+        
+        .registration-title {
+            font-size: 24px;
+        }
+        
+        .registration-container {
+            padding: 60px 15px 30px;
+            background: var(--light-gray);
+        }
+    }
+</style>
+
 <div class="registration-container">
     <div class="registration-card">
         <h2 class="registration-title">Создать аккаунт</h2>
@@ -10,7 +225,7 @@
             {% csrf_token %}
             
             {% if form.errors %}
-                <div class="alert alert-danger">
+                <div class="alert-danger">
                     {% for field in form %}
                         {% for error in field.errors %}
                             <div class="error-message">{{ error }}</div>
@@ -32,7 +247,10 @@
             
             <div class="form-group">
                 <label for="{{ form.phone.id_for_label }}">Телефон</label>
-                {{ form.phone }}
+                <div class="phone-input-container" style="display: flex; align-items: center; gap: 10px;">
+                    <span class="phone-prefix">+7</span>
+                    {{ form.phone }}
+                </div>
             </div>
             
             <div class="form-group">
@@ -47,8 +265,8 @@
             </div>
             
             <div class="form-check">
-                {{ form.terms }}
-                <label class="form-check-label" for="{{ form.terms.id_for_label }}">
+                <input type="checkbox" id="terms_checkbox" name="terms" required>
+                <label class="form-check-label" for="terms_checkbox">
                     Я согласен с <a href="#" class="terms-link">условиями использования</a>
                 </label>
             </div>
@@ -61,4 +279,33 @@
         </form>
     </div>
 </div>
+
+<script>
+    // Маска для телефона
+    document.addEventListener('DOMContentLoaded', function() {
+        const phoneInput = document.getElementById('id_phone');
+        
+        if (phoneInput) {
+            phoneInput.addEventListener('input', function(e) {
+                let x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/);
+                e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '') + (x[4] ? '-' + x[4] : '');
+            });
+            
+            phoneInput.placeholder = '(777) 777-77-77';
+        }
+
+        // Обработка галочки согласия
+        const termsCheckbox = document.getElementById('terms_checkbox');
+        const registerBtn = document.querySelector('.btn-register');
+        
+        if (termsCheckbox && registerBtn) {
+            termsCheckbox.addEventListener('change', function() {
+                registerBtn.disabled = !this.checked;
+            });
+            
+            // Изначально кнопка неактивна, пока не поставят галочку
+            registerBtn.disabled = true;
+        }
+    });
+</script>
 {% endblock %}

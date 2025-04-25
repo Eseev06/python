@@ -3,14 +3,8 @@ from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator, MaxValueValidator
 from accounts.models import CustomUser
 
-# class CustomUser(AbstractUser):
-#     phone = models.CharField(max_length=20, blank=True)
-#     driver_license = models.CharField(max_length=50, blank=True)
-#     address = models.TextField(blank=True)
-    
-#     class Meta:
-#         verbose_name = 'Пользователь'
-#         verbose_name_plural = 'Пользователи'
+from django.contrib.auth.models import AbstractUser
+from django.db import models
 
 class Car(models.Model):
     TRANSMISSION_CHOICES = [

@@ -5,6 +5,8 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>REAL CAR - Аренда автомобилей</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/static/car_rental/css/style.css">
+
     <style>
         :root {
             --primary: #3366ff;
@@ -299,8 +301,9 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 30px;
-            margin-top: 50px;
+            margin-top: 30px;
         }
+        
         
         .car-card {
             background: white;
@@ -583,48 +586,53 @@
                     <a href="#conditions-section">Условия</a>
                     <a href="#contacts-section">Контакты</a>
                 </div>
+             
+                {% if user.is_authenticated %}
                 <div class="auth-buttons">
-                    <button class="auth-button" onclick="toggleDropdown('register')">Зарегистрироваться</button>
-                    <button class="auth-button primary" onclick="toggleDropdown('login')">Войти</button>
-                </div>
-                <div class="dropdown-content" id="dropdown">
-                    <div class="auth-tabs">
-                        <button class="tab-button active" onclick="switchTab('login')">Вход</button>
-                        <button class="tab-button" onclick="switchTab('register')">Регистрация</button>
-                    </div>
-                    <form class="auth-form active" id="login-form">
-                        <input placeholder="Логин" required="" type="text"/>
-                        <input placeholder="Пароль" required="" type="password"/>
-                        <button type="submit">Войти</button>
-                    </form>
-                    <form class="auth-form" id="register-form">
-                        <input placeholder="Имя" required="" type="text"/>
-                        <input placeholder="Фамилия" required="" type="text"/>
-                        <input placeholder="Email" required="" type="email"/>
-                        <input placeholder="Телефон" required="" type="tel"/>
-                        <input placeholder="Пароль" required="" type="password"/>
-                        <input placeholder="Подтвердите пароль" required="" type="password"/>
-                        <button type="submit">Зарегистрироваться</button>
+                    <a href="{% url 'profile' %}" class="auth-button">Профиль</a>
+                
+                    <!-- Форма для выхода -->
+                    <form method="POST" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-secondary">Выйти</button>
                     </form>
                 </div>
+                
+            {% else %}
+                <div class="auth-buttons">
+                    <a href="{% url 'login' %}" class="auth-button primary">Войти</a>
+                    <a href="{% url 'register' %}" class="auth-button">Зарегистрироваться</a>
+                </div>
+            {% endif %}
+            
+                
             </nav>
         </div>
     </header>
 
+    <!-- Hero Section -->
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">
             <div class="hero-content">
                 <h1>Аренда автомобилей в любое время</h1>
                 <p>Более 100 автомобилей на выбор. Бронируйте онлайн за 2 минуты.</p>
+    
                 <div class="search-box">
                     <h3>Найти автомобиль</h3>
                     <form method="get" action="">
                         <label for="city">Выберите город:</label>
-                        <select name="city" id="city" style="width: 100%; padding: 10px; margin-bottom: 15px;" onchange="this.form.submit()">
+                        <select
+                            name="city"
+                            id="city"
+                            style="width: 100%; padding: 10px; margin-bottom: 15px;"
+                            onchange="this.form.submit()"
+                        >
                             <option value="">Все города</option>
                             {% for city in cities %}
-                            <option value="{{ city }}" {% if selected_city == city %}selected{% endif %}>{{ city }}</option>
+                            <option value="{{ city }}" {% if selected_city == city %}selected{% endif %}>
+                                {{ city }}
+                            </option>
                             {% endfor %}
                         </select>
                         <button class="cta-button" style="width: 100%;" type="submit">Найти автомобиль</button>
@@ -633,6 +641,52 @@
             </div>
         </div>
     </section>
+    
+    <section class="cars-section">
+        <div class="container">
+            {% if latest_cars %}
+            <div class="search-results">
+                <h3 style="margin-top: 40px;">Автомобили в {{ selected_city|default:"всех городах" }}</h3>
+                <div class="cars-grid">
+                    {% for car in latest_cars %}
+                    <div class="car-card">
+                        <div class="car-image-wrapper">
+                            <img src="{{ car.image.url }}" alt="{{ car.name }}" class="car-image" />
+                        </div>
+                        <div class="car-info">
+                            <h4 class="car-title">{{ car.name }}</h4>
+                            <p class="car-price">{{ car.price_per_day|default:"Цена не указана" }} ₸/день</p>
+                            <div class="car-details">
+                                <div class="detail">
+                                    <i class="fa fa-cogs"></i> {{ car.transmission }}
+                                </div>
+                                <div class="detail">
+                                    <i class="fa fa-users"></i> {{ car.seats }} места
+                                </div>
+                                <div class="detail">
+                                    <i class="fa fa-calendar-alt"></i> {{ car.year }} год
+                                </div>
+                            </div>
+                            <div class="car-status">
+                                {% if car.status == 'available' %}
+                                <span class="status available">Доступен</span>
+                                <button class="cta-button" onclick="openRentalModal('{{ car.name }}')">Арендовать</button>
+                                {% elif car.status == 'pending' %}
+                                <span class="status pending">Ожидается</span>
+                                {% elif car.status == 'confirmed' %}
+                                <span class="status confirmed">Подтвержден</span>
+                                {% endif %}
+                            </div>
+                            <a href="{% url 'car_detail' car.id %}" class="cta-button">Подробнее</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+  
 
     <!-- How It Works Section -->
     <section class="section" id="how-section">
@@ -648,7 +702,7 @@
                     </div>
                     <h3>Выберите автомобиль</h3>
                     <p>Выберите из нашего большого автопарка автомобиль, который подходит именно вам</p>
-                    <button class="btn btn-outline" onclick="document.getElementById('cars-section').scrollIntoView({behavior: 'smooth'})">Показать автопарк</button>
+                    
                 </div>
                 <div class="step">
                     <div class="step-icon">
@@ -656,7 +710,7 @@
                     </div>
                     <h3>Забронируйте дату</h3>
                     <p>Укажите даты аренды и место получения автомобиля</p>
-                    <button class="btn btn-outline" onclick="alert('Вы будете перенаправлены на страницу бронирования')">Забронировать сейчас</button>
+                    
                 </div>
                 <div class="step">
                     <div class="step-icon">
@@ -664,67 +718,13 @@
                     </div>
                     <h3>Получите ключи</h3>
                     <p>Приезжайте в указанное место и забирайте свой автомобиль</p>
-                    <button class="btn btn-outline" onclick="alert('Адрес нашего офиса: г. Алматы, ул. Манаса 34/1. Телефон: +7 (747) 516-75-97')">Контакты офиса</button>
+                    
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Cars Section -->
-    <section class="section" id="cars-section">
-        <div class="container">
-            <div class="section-title">
-                <h2>Наш автопарк</h2>
-                <p>Выберите автомобиль, который подходит именно вам</p>
-            </div>
-            <div class="cars-grid">
-                {% for car in cars %}
-                <div class="car-card">
-                    <img src="{{ car.image.url }}" alt="{{ car.name }}" class="car-image">
-                    <div class="car-info">
-                        <h3 class="car-title">{{ car.brand }} {{ car.name }}</h3>
-                        <div class="car-price">от {{ car.price_per_day }} ₸/сутки</div>
-                        <div class="car-features">
-                            <div class="feature">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span>{{ car.city }}</span>
-                            </div>
-                            <div class="feature">
-                                <i class="fas fa-calendar-alt"></i>
-                                <span>{{ car.year }} год</span>
-                            </div>
-                            <div class="feature">
-                                <i class="fas fa-cogs"></i>
-                                <span>{{ car.get_transmission_display }}</span>
-                            </div>
-                            <div class="feature">
-                                <i class="fas fa-gas-pump"></i>
-                                <span>{{ car.get_fuel_type_display }}</span>
-                            </div>
-                            <div class="feature">
-                                <i class="fas fa-users"></i>
-                                <span>{{ car.seats }} места</span>
-                            </div>
-                        </div>
-                        <div class="car-status">
-                            {% if car.status == 'available' %}
-                            <span class="status available">Свободен</span>
-                            {% elif car.status == 'pending' %}
-                            <span class="status pending">В ожидании</span>
-                            {% elif car.status == 'confirmed' %}
-                            <span class="status confirmed">Занят</span>
-                            {% endif %}
-                        </div>
-                        {% if car.status == 'available' %}
-                        <button class="cta-button" onclick="openRentalModal('{{ car.brand }} {{ car.name }}')">Арендовать</button>
-                        {% endif %}
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-    </section>
-
+   
     <!-- Conditions Section -->
     <section class="conditions" id="conditions-section">
         <div class="container">
@@ -861,7 +861,7 @@
                 if (!isClickInside) {
                     dropdown.style.display = 'none';
                 }
-            });
+            });я
         });
 
         // Rental modal functionality

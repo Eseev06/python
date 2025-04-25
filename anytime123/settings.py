@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-#_usjw%eed46ufm=ud^aq4wz4d4#9!miq(c$341jn+w&*r1dxa
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+AUTH_USER_MODEL = 'accounts.CustomUser'
 
 # Application definition
 INSTALLED_APPS = [
@@ -45,7 +45,7 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
 LOGIN_REDIRECT_URL = '/accounts/profile/'
-LOGOUT_REDIRECT_URL = '/accounts/login/'
+LOGOUT_REDIRECT_URL = '/'  # Перенаправление на главную страницу после выхода
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -134,9 +134,7 @@ STATIC_URL = '/static/'  # Обратите внимание на слеш в н
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'  # Для collectstatic (верно)
 
-STATICFILES_DIRS = [
-    BASE_DIR / "car_rental/static",  # Указывает на вашу реальную папку static
-]
+STATICFILES_DIRS = [BASE_DIR / 'static']
 AUTH_USER_MODEL = 'accounts.CustomUser' # Замените your_app_name на имя вашего приложения
 
 

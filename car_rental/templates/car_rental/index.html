@@ -1,63 +1,45 @@
-{% comment %} {% extends 'base.html' %}
+<!-- filepath: c:\project\anytime123\car_rental\templates\car_rental\index.html -->
+{% extends 'base.html' %}
 {% load static %}
 
 {% block content %}
-<div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-    <div class="w-full max-w-md bg-white rounded-xl shadow-lg overflow-hidden">
-        <div class="bg-indigo-600 py-6 px-8">
-            <h1 class="text-2xl font-bold text-white text-center">Создать аккаунт</h1>
-        </div>
-        
-        <form class="p-8 space-y-6" method="post">
-            {% csrf_token %}
-            
-            <div class="space-y-4">
-                <div>
-                    <label for="id_username" class="block text-sm font-medium text-gray-700 mb-1">Имя пользователя</label>
-                    <input type="text" id="id_username" name="username" required
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
-                           placeholder="Ваше уникальное имя">
-                </div>
-                
-                <div>
-                    <label for="id_email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                    <input type="email" id="id_email" name="email" required
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
-                           placeholder="example@mail.com">
-                </div>
-                
-                <div>
-                    <label for="id_password1" class="block text-sm font-medium text-gray-700 mb-1">Пароль</label>
-                    <input type="password" id="id_password1" name="password1" required
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
-                           placeholder="Не менее 8 символов">
-                </div>
-                
-                <div>
-                    <label for="id_password2" class="block text-sm font-medium text-gray-700 mb-1">Подтверждение пароля</label>
-                    <input type="password" id="id_password2" name="password2" required
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
-                           placeholder="Повторите пароль">
-                </div>
+<div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex flex-col items-center justify-center p-4">
+    <div class="w-full max-w-4xl bg-white rounded-xl shadow-lg overflow-hidden p-6">
+        <h1 class="text-2xl font-bold text-gray-800 text-center mb-6">Аренда автомобилей</h1>
+
+        <!-- Форма поиска -->
+        <form method="get" action="." class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
+            <div class="flex-1">
+                <label for="city" class="block text-sm font-medium text-gray-700 mb-1">Выберите город:</label>
+                <select name="city" id="city" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                    <option value="">Все города</option>
+                    {% for city in cities %}
+                        <option value="{{ city }}" {% if city == selected_city %}selected{% endif %}>{{ city }}</option>
+                    {% endfor %}
+                </select>
             </div>
-            
-            <div class="flex items-center">
-                <input type="checkbox" id="terms" name="terms" required
-                       class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
-                <label for="terms" class="ml-2 block text-sm text-gray-700">
-                    Я согласен с <a href="#" class="text-indigo-600 hover:text-indigo-800">условиями использования</a>
-                </label>
+            <div class="flex-1">
+                <label for="search" class="block text-sm font-medium text-gray-700 mb-1">Поиск:</label>
+                <input type="text" name="search" id="search" value="{{ search_query }}" placeholder="Введите название автомобиля"
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
             </div>
-            
-            <button type="submit" 
-                    class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200 transform hover:scale-[1.02]">
-                Зарегистрироваться
+            <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200 transform hover:scale-[1.02]">
+                Найти
             </button>
-            
-            <div class="text-center text-sm text-gray-500">
-                Уже есть аккаунт? <a href="{% url 'login' %}" class="text-indigo-600 hover:text-indigo-800 font-medium">Войти</a>
-            </div>
         </form>
+
+        <!-- Список автомобилей -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for car in latest_cars %}
+                <div class="border border-gray-300 rounded-lg p-4 shadow-sm">
+                    <h2 class="text-lg font-bold text-gray-800">{{ car.name }}</h2>
+                    <p class="text-sm text-gray-600">Город: {{ car.city }}</p>
+                    <p class="text-sm text-gray-600">Цена: {{ car.price }} руб.</p>
+                </div>
+            {% empty %}
+                <p class="text-center text-gray-500 col-span-full">Автомобили не найдены.</p>
+            {% endfor %}
+        </div>
     </div>
 </div>
-{% endblock %} {% endcomment %}
+{% endblock %}

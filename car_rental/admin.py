@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 from django.contrib.auth.admin import UserAdmin
 from .models import CustomUser, Car, Booking, Review
-from accounts.models import CustomUser  # а не car_rental.models
+
 
 
 # Кастомная модель пользователя

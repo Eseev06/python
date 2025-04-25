@@ -4,26 +4,40 @@ from django.contrib.auth.forms import AuthenticationForm
 from accounts.forms import RegisterForm  # Импорт своей формы
 from .models import Car, Booking
 
+
+
+
 def index(request):
-    city = request.GET.get('city')  # Получаем город из параметров запроса
+    city = request.GET.get('city')
+    search_query = request.GET.get('search')
+
+    cars = Car.objects.all()
+
     if city:
-        latest_cars = Car.objects.filter(city=city).order_by('-id')[:6]  # Фильтруем по городу
-    else:
-        latest_cars = Car.objects.order_by('-id')[:6]  # Показываем последние 6 машин
+      cars = cars.filter(city=city)
+    if search_query:
+      cars = cars.filter(name__icontains=search_query)
+
+# Исключаем автомобили без изображений
+    cars = cars.filter(image__isnull=False)
+
+    latest_cars = cars.order_by('-id')[:6]
 
     login_form = AuthenticationForm()
     register_form = RegisterForm()
-    cities = Car.objects.values_list('city', flat=True).distinct()  # Получаем уникальные города из базы данных
+    cities = Car.objects.values_list('city', flat=True).distinct()
 
     context = {
         'latest_cars': latest_cars,
         'page_title': 'Аренда автомобилей',
         'login_form': login_form,
         'register_form': register_form,
-        'cities': cities,  # Передаём список городов
+        'cities': cities,
         'selected_city': city,
+        'search_query': search_query,
     }
-    return render(request, 'car_rental/index.html', context)
+    return render(request, 'car_rental/car_list.html', context)  # Обновляем шаблон на car_list.html
+
 
 @login_required
 def my_bookings(request):

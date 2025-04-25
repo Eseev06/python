@@ -1,0 +1,248 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <div class="auth-header">
+            <div class="auth-logo">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" fill="currentColor"/>
+                    <path d="M12 14C7.58172 14 4 17.5817 4 22H20C20 17.5817 16.4183 14 12 14Z" fill="currentColor"/>
+                </svg>
+            </div>
+            <h1 class="auth-title">Вход в аккаунт</h1>
+            <p class="auth-subtitle">Введите свои данные для продолжения</p>
+        </div>
+
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="id_username" class="form-label">Имя пользователя</label>
+                <input type="text" name="username" id="id_username" class="form-input" placeholder="Введите имя пользователя" required>
+                <i class="form-icon">👤</i>
+            </div>
+            
+            <div class="form-group">
+                <label for="id_password" class="form-label">Пароль</label>
+                <input type="password" name="password" id="id_password" class="form-input" placeholder="Введите пароль" required>
+                <i class="form-icon">🔒</i>
+            </div>
+            
+            <button type="submit" class="auth-btn">
+                <span>Войти</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 5L19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </form>
+
+        <div class="auth-footer">
+            <p>Нет аккаунта? <a href="{% url 'register' %}" class="auth-link">Зарегистрироваться</a></p>
+            <a href="{% url 'password_reset' %}" class="auth-link">Забыли пароль?</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    :root {
+        --primary-color: #4361ee;
+        --primary-light: #4895ef;
+        --secondary-color: #3f37c9;
+        --dark-color: #1b263b;
+        --light-color: #f8f9fa;
+        --danger-color: #f72585;
+        --success-color: #4cc9f0;
+        --border-radius: 12px;
+        --box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .auth-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+        background-color: #f5f7ff;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .auth-card {
+        width: 100%;
+        max-width: 420px;
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+        overflow: hidden;
+        transition: var(--transition);
+        animation: fadeIn 0.6s ease-out;
+    }
+
+    .auth-header {
+        padding: 30px 30px 20px;
+        text-align: center;
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+        color: white;
+    }
+
+    .auth-logo {
+        width: 60px;
+        height: 60px;
+        margin: 0 auto 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255,255,255,0.2);
+        border-radius: 50%;
+    }
+
+    .auth-logo svg {
+        width: 30px;
+        height: 30px;
+        color: white;
+    }
+
+    .auth-title {
+        margin: 0;
+        font-size: 24px;
+        font-weight: 700;
+    }
+
+    .auth-subtitle {
+        margin: 8px 0 0;
+        opacity: 0.9;
+        font-size: 14px;
+    }
+
+    .auth-form {
+        padding: 25px 30px;
+    }
+
+    .form-group {
+        position: relative;
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--dark-color);
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 12px 15px 12px 45px;
+        font-size: 15px;
+        border: 1px solid #e0e0e0;
+        border-radius: var(--border-radius);
+        transition: var(--transition);
+        background-color: #f9f9f9;
+    }
+
+    .form-input:focus {
+        outline: none;
+        border-color: var(--primary-light);
+        box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        background-color: white;
+    }
+
+    .form-icon {
+        position: absolute;
+        left: 15px;
+        bottom: 12px;
+        font-size: 18px;
+        opacity: 0.5;
+    }
+
+    .auth-btn {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding: 14px 20px;
+        margin-top: 10px;
+        background: linear-gradient(to right, var(--primary-color), var(--primary-light));
+        color: white;
+        border: none;
+        border-radius: var(--border-radius);
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+
+    .auth-btn:hover {
+        background: linear-gradient(to right, var(--secondary-color), var(--primary-color));
+        box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        transform: translateY(-2px);
+    }
+
+    .auth-btn svg {
+        transition: var(--transition);
+    }
+
+    .auth-btn:hover svg {
+        transform: translateX(3px);
+    }
+
+    .auth-footer {
+        padding: 15px 30px 25px;
+        text-align: center;
+        font-size: 14px;
+        color: #6c757d;
+        border-top: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .auth-link {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: 500;
+        transition: var(--transition);
+    }
+
+    .auth-link:hover {
+        color: var(--secondary-color);
+        text-decoration: underline;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 480px) {
+        .auth-card {
+            max-width: 100%;
+        }
+        
+        .auth-header {
+            padding: 25px 20px 15px;
+        }
+        
+        .auth-form {
+            padding: 20px;
+        }
+        
+        .auth-footer {
+            padding: 15px 20px 20px;
+        }
+    }
+
+    /* Обработка ошибок */
+    .errorlist {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 15px 0;
+        color: var(--danger-color);
+        font-size: 14px;
+        background: rgba(247, 37, 133, 0.05);
+        padding: 10px 15px;
+        border-radius: 6px;
+        border-left: 3px solid var(--danger-color);
+    }
+</style>
+{% endblock %}
