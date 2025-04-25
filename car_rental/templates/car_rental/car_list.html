@@ -1,91 +1,11 @@
 <!DOCTYPE html>
-
 <html lang="ru">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>REAL CAR - Аренда автомобилей</title>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-<style>
-    .car-features {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        margin-top: 15px;
-        color: #555;
-    }
-    
-    .feature {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 14px;
-    }
-    
-    .feature i {
-        color: #007bff;
-        font-size: 16px;
-    }
-    
-    .car-status .status {
-        display: inline-block;
-        padding: 5px 10px;
-        border-radius: 5px;
-        font-size: 12px;
-        font-weight: bold;
-        margin-top: 10px;
-    }
-    
-    .car-status .status.available {
-        background-color: #d4edda;
-        color: #155724;
-    }
-    
-    .car-status .status.pending {
-        background-color: #fff3cd;
-        color: #856404;
-    }
-    
-    .car-status .status.confirmed {
-        background-color: #f8d7da;
-        color: #721c24;
-    }
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            top: 60px;
-            right: 20px;
-            background-color: white;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            z-index: 1001;
-        }
-
-        .dropdown-content input {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        .dropdown-content button[type="submit"] {
-            width: 100%;
-            padding: 10px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .dropdown-content button[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-        
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>REAL CAR - Аренда автомобилей</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <style>
         :root {
             --primary: #3366ff;
             --primary-dark: #2541b2;
@@ -179,6 +99,43 @@
         
         .auth-button:hover {
             opacity: 0.9;
+        }
+        
+        /* Dropdown */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            z-index: 1001;
+        }
+        
+        .dropdown-content input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+        .dropdown-content button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .dropdown-content button[type="submit"]:hover {
+            background-color: var(--primary-dark);
         }
         
         .auth-tabs {
@@ -283,10 +240,13 @@
             padding: 30px;
             border-radius: 10px;
             transition: transform 0.3s;
+            background-color: #f8f9fa;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
         
         .step:hover {
             transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
         
         .step-icon {
@@ -307,6 +267,33 @@
             color: var(--dark);
         }
         
+        .step p {
+            margin-bottom: 20px;
+            color: var(--gray);
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .btn-outline {
+            border: 2px solid var(--primary);
+            background: transparent;
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
         /* Cars Section */
         .cars-grid {
             display: grid;
@@ -325,6 +312,7 @@
         
         .car-card:hover {
             transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
         }
         
         .car-image {
@@ -352,16 +340,64 @@
         
         .car-features {
             display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 20px;
+            flex-direction: column;
+            gap: 8px;
+            margin: 15px 0;
+        }
+        
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
             color: var(--gray);
         }
         
-        .car-feature {
-            display: flex;
-            align-items: center;
-            gap: 5px;
+        .feature i {
+            color: var(--primary);
+            width: 20px;
+            text-align: center;
+        }
+        
+        .car-status .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .car-status .status.available {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .car-status .status.pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .car-status .status.confirmed {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .cta-button {
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 5px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .cta-button:hover {
+            background-color: var(--secondary);
         }
         
         /* Conditions Section */
@@ -454,11 +490,65 @@
             font-size: 14px;
         }
         
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.6);
+        }
+        
+        .modal-content {
+            background-color: #fff;
+            margin: 10% auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #999;
+        }
+        
+        .close:hover {
+            color: #333;
+        }
+        
         /* Responsive */
         @media (max-width: 768px) {
             .navbar {
                 flex-direction: column;
                 gap: 20px;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .auth-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .dropdown-content {
+                width: 90%;
+                right: 5%;
             }
             
             .hero h1 {
@@ -476,381 +566,324 @@
             .condition-cards {
                 grid-template-columns: 1fr;
             }
-            
-            .auth-buttons {
-                width: 100%;
-                justify-content: center;
-            }
-            
-            .dropdown-content {
-                width: 90%;
-                right: 5%;
-            }
         }
     </style>
 </head>
 <body>
-<!-- Header -->
-<header>
-<div class="container">
-<nav class="navbar">
-<a class="logo" href="#">REAL CAR</a>
-<div class="nav-links">
-<a href="#">Главная</a>
-<a href="#how-section">Как это работает</a>
-<a href="#cars-section">Автопарк</a>
-<a href="/faq/">Вопрос-Ответ</a> 
-<a href="#conditions-section">Условия</a>
-<a href="#contacts-section">Контакты</a>
-</div>
-<div class="auth-buttons">
-<button class="auth-button" onclick="toggleDropdown('register')">Зарегистрироваться</button>
-<button class="auth-button primary" onclick="toggleDropdown('login')">Войти</button>
-</div>
-<div class="dropdown-content" id="dropdown">
-<div class="auth-tabs">
-<button class="tab-button active" onclick="switchTab('login')">Вход</button>
-<button class="tab-button" onclick="switchTab('register')">Регистрация</button>
-</div>
-<form class="auth-form active" id="login-form">
-<input placeholder="Логин" required="" type="text"/>
-<input placeholder="Пароль" required="" type="password"/>
-<button type="submit">Войти</button>
-</form>
-<form class="auth-form" id="register-form">
-<input placeholder="Имя" required="" type="text"/>
-<input placeholder="Фамилия" required="" type="text"/>
-<input placeholder="Email" required="" type="email"/>
-<input placeholder="Телефон" required="" type="tel"/>
-<input placeholder="Пароль" required="" type="password"/>
-<input placeholder="Подтвердите пароль" required="" type="password"/>
-<button type="submit">Зарегистрироваться</button>
-</form>
-</div>
-</nav>
-</div>
-</header>
-<!-- Hero Section -->
-<section class="hero">
-<div class="container">
-<div class="hero-content">
-<h1>Аренда автомобилей в любое время</h1>
-<p>Более 100 автомобилей на выбор. Бронируйте онлайн за 2 минуты.</p>
-<div class="search-box">
-    <h3>Найти автомобиль</h3>
-    <form method="get" action="">
-        <label for="city">Выберите город:</label>
-        <select name="city" id="city" style="width: 100%; padding: 10px; margin-bottom: 15px;" onchange="this.form.submit()">
-            <option value="">Все города</option>
-            {% for city in cities %}
-            <option value="{{ city }}" {% if selected_city == city %}selected{% endif %}>{{ city }}</option>
-            {% endfor %}
-        </select>
-        <button class="cta-button" style="width: 100%;" type="submit">Найти автомобиль</button>
-    </form>
-</div>
-</div>
-</div>
-</section>
-<!-- How It Works Section -->
-<section class="section" id="how-section">
-<div class="container">
-<div class="section-title">
-<h2>Как это работает</h2>
-<p>Всего 3 простых шага чтобы арендовать автомобиль вашей мечты</p>
-</div>
-<div class="steps">
-<div class="step">
-<div class="step-icon">
-<i class="fas fa-car"></i>
-</div>
-<h3>Выберите автомобиль</h3>
-<p>Выберите из нашего большого автопарка автомобиль, который подходит именно вам</p>
-</div>
-<div class="step">
-<div class="step-icon">
-<i class="fas fa-calendar-check"></i>
-</div>
-<h3>Забронируйте дату</h3>
-<p>Укажите даты аренды и место получения автомобиля</p>
-</div>
-<div class="step">
-<div class="step-icon">
-<i class="fas fa-key"></i>
-</div>
-<h3>Получите ключи</h3>
-<p>Приезжайте в указанное место и забирайте свой автомобиль</p>
-</div>
-</div>
-</div>
-</section>
-<!-- Cars Section -->
-<section class="cars-section" id="cars-section">
-    <div class="container">
-        <h2>Наш автопарк</h2>
-        <p>Выберите автомобиль, который подходит именно вам</p>
-        <!-- filepath: c:\project\anytime123\car_rental\templates\car_rental\car_list.html -->
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a class="logo" href="#">REAL CAR</a>
+                <div class="nav-links">
+                    <a href="#">Главная</a>
+                    <a href="#how-section">Как это работает</a>
+                    <a href="#cars-section">Автопарк</a>
+                    <a href="/faq/">Вопрос-Ответ</a>
+                    <a href="#conditions-section">Условия</a>
+                    <a href="#contacts-section">Контакты</a>
+                </div>
+                <div class="auth-buttons">
+                    <button class="auth-button" onclick="toggleDropdown('register')">Зарегистрироваться</button>
+                    <button class="auth-button primary" onclick="toggleDropdown('login')">Войти</button>
+                </div>
+                <div class="dropdown-content" id="dropdown">
+                    <div class="auth-tabs">
+                        <button class="tab-button active" onclick="switchTab('login')">Вход</button>
+                        <button class="tab-button" onclick="switchTab('register')">Регистрация</button>
+                    </div>
+                    <form class="auth-form active" id="login-form">
+                        <input placeholder="Логин" required="" type="text"/>
+                        <input placeholder="Пароль" required="" type="password"/>
+                        <button type="submit">Войти</button>
+                    </form>
+                    <form class="auth-form" id="register-form">
+                        <input placeholder="Имя" required="" type="text"/>
+                        <input placeholder="Фамилия" required="" type="text"/>
+                        <input placeholder="Email" required="" type="email"/>
+                        <input placeholder="Телефон" required="" type="tel"/>
+                        <input placeholder="Пароль" required="" type="password"/>
+                        <input placeholder="Подтвердите пароль" required="" type="password"/>
+                        <button type="submit">Зарегистрироваться</button>
+                    </form>
+                </div>
+            </nav>
+        </div>
+    </header>
 
-     
-        <!-- Список автомобилей -->
-        <!-- filepath: c:\project\anytime123\car_rental\templates\car_rental\car_list.html -->
- <!-- filepath: c:\project\anytime123\car_rental\templates\car_rental\car_list.html -->
-<!-- filepath: c:\project\anytime123\car_rental\templates\car_rental\car_list.html -->
-<!-- filepath: c:\project\anytime123\car_rental\templates\car_rental\car_list.html -->
-<!-- filepath: c:\project\anytime123\car_rental\templates\car_rental\car_list.html -->
-<div class="cars-grid">
-    {% for car in cars %}
-    <div class="car-card">
-        <img src="{{ car.image.url }}" alt="{{ car.name }}" class="car-image">
-        <div class="car-info">
-            <h3 class="car-title">{{ car.brand }} {{ car.name }}</h3>
-            <div class="car-price">от {{ car.price_per_day }} ₸/сутки</div>
-            <div class="car-status">
-                {% if car.status == 'available' %}
-                <span style="color: green;">Свободен</span>
-                {% elif car.status == 'pending' %}
-                <span style="color: orange;">В ожидании</span>
-                {% elif car.status == 'confirmed' %}
-                <span style="color: red;">Занят</span>
-                {% endif %}
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Аренда автомобилей в любое время</h1>
+                <p>Более 100 автомобилей на выбор. Бронируйте онлайн за 2 минуты.</p>
+                <div class="search-box">
+                    <h3>Найти автомобиль</h3>
+                    <form method="get" action="">
+                        <label for="city">Выберите город:</label>
+                        <select name="city" id="city" style="width: 100%; padding: 10px; margin-bottom: 15px;" onchange="this.form.submit()">
+                            <option value="">Все города</option>
+                            {% for city in cities %}
+                            <option value="{{ city }}" {% if selected_city == city %}selected{% endif %}>{{ city }}</option>
+                            {% endfor %}
+                        </select>
+                        <button class="cta-button" style="width: 100%;" type="submit">Найти автомобиль</button>
+                    </form>
+                </div>
             </div>
-            <!-- Краткие характеристики -->
-            <div class="car-features">
-                <p><strong>Год выпуска:</strong> {{ car.year }}</p>
-                <p><strong>Трансмиссия:</strong> {{ car.get_transmission_display }}</p>
-                <p><strong>Количество мест:</strong> {{ car.seats }}</p>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="section" id="how-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Как это работает</h2>
+                <p>Всего 3 простых шага чтобы арендовать автомобиль вашей мечты</p>
             </div>
-            {% if car.status == 'available' %}
-            <button class="cta-button" onclick="openRentalModal()">Арендовать</button>
-            {% endif %}
+            <div class="steps">
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <h3>Выберите автомобиль</h3>
+                    <p>Выберите из нашего большого автопарка автомобиль, который подходит именно вам</p>
+                    <button class="btn btn-outline" onclick="document.getElementById('cars-section').scrollIntoView({behavior: 'smooth'})">Показать автопарк</button>
+                </div>
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h3>Забронируйте дату</h3>
+                    <p>Укажите даты аренды и место получения автомобиля</p>
+                    <button class="btn btn-outline" onclick="alert('Вы будете перенаправлены на страницу бронирования')">Забронировать сейчас</button>
+                </div>
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-key"></i>
+                    </div>
+                    <h3>Получите ключи</h3>
+                    <p>Приезжайте в указанное место и забирайте свой автомобиль</p>
+                    <button class="btn btn-outline" onclick="alert('Адрес нашего офиса: г. Алматы, ул. Манаса 34/1. Телефон: +7 (747) 516-75-97')">Контакты офиса</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cars Section -->
+    <section class="section" id="cars-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Наш автопарк</h2>
+                <p>Выберите автомобиль, который подходит именно вам</p>
+            </div>
+            <div class="cars-grid">
+                {% for car in cars %}
+                <div class="car-card">
+                    <img src="{{ car.image.url }}" alt="{{ car.name }}" class="car-image">
+                    <div class="car-info">
+                        <h3 class="car-title">{{ car.brand }} {{ car.name }}</h3>
+                        <div class="car-price">от {{ car.price_per_day }} ₸/сутки</div>
+                        <div class="car-features">
+                            <div class="feature">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>{{ car.city }}</span>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>{{ car.year }} год</span>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-cogs"></i>
+                                <span>{{ car.get_transmission_display }}</span>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-gas-pump"></i>
+                                <span>{{ car.get_fuel_type_display }}</span>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-users"></i>
+                                <span>{{ car.seats }} места</span>
+                            </div>
+                        </div>
+                        <div class="car-status">
+                            {% if car.status == 'available' %}
+                            <span class="status available">Свободен</span>
+                            {% elif car.status == 'pending' %}
+                            <span class="status pending">В ожидании</span>
+                            {% elif car.status == 'confirmed' %}
+                            <span class="status confirmed">Занят</span>
+                            {% endif %}
+                        </div>
+                        {% if car.status == 'available' %}
+                        <button class="cta-button" onclick="openRentalModal('{{ car.brand }} {{ car.name }}')">Арендовать</button>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Conditions Section -->
+    <section class="conditions" id="conditions-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Условия аренды</h2>
+                <p>Правила и требования для аренды автомобиля</p>
+            </div>
+            <div class="condition-cards">
+                <div class="condition-card">
+                    <h3>Требования к арендатору</h3>
+                    <ul>
+                        <li>Возраст от 21 года</li>
+                        <li>Водительский стаж не менее 2 лет</li>
+                        <li>Действующее водительское удостоверение</li>
+                        <li>Паспорт или удостоверение личности</li>
+                        <li>Депозит в размере 50% от стоимости аренды</li>
+                    </ul>
+                </div>
+                <div class="condition-card">
+                    <h3>Тарифы и оплата</h3>
+                    <ul>
+                        <li>Минимальный срок аренды - 1 сутки</li>
+                        <li>Оплата картой или наличными</li>
+                        <li>Бесплатный пробег 200 км/сутки</li>
+                        <li>Дополнительный километраж: 50 ₸/км</li>
+                        <li>Полная страховка включена в стоимость</li>
+                    </ul>
+                </div>
+                <div class="condition-card">
+                    <h3>Дополнительные услуги</h3>
+                    <ul>
+                        <li>Детское кресло: 2 000 ₸/сутки</li>
+                        <li>Навигатор: 1 500 ₸/сутки</li>
+                        <li>Доставка автомобиля: 5 000 ₸</li>
+                        <li>Дополнительный водитель: 3 000 ₸</li>
+                        <li>Зимние шины (в сезон): бесплатно</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contacts-section">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Компания</h3>
+                    <ul>
+                        <li><a href="#">О нас</a></li>
+                        <li><a href="#">Команда</a></li>
+                        <li><a href="#">Карьера</a></li>
+                        <li><a href="#">Блог</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Контакты</h3>
+                    <ul>
+                        <li><a href="#">+7 (747) 516-75-97</a></li>
+                        <li><a href="#">+7 (747) 773-43-60</a></li>
+                        <li><a href="#">realcar@gmail.com</a></li>
+                        <li><a href="#">г. Алматы, ул. Манаса 34/1</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Помощь</h3>
+                    <ul>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Условия аренды</a></li>
+                        <li><a href="#">Политика конфиденциальности</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Мы в соцсетях</h3>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/amangeldi.e_/"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2025 REAL CAR. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Rental Modal -->
+    <div class="modal" id="rentalModal">
+        <div class="modal-content">
+            <span class="close" onclick="closeRentalModal()">×</span>
+            <h2 id="modal-car-title">Аренда автомобиля</h2>
+            <p><strong>Телефон:</strong> +7 (747) 516-75-97</p>
+            <p><strong>Телефон:</strong> +7 (747) 773-43-60</p>
+            <p><strong>Email:</strong> realcar@gmail.com</p>
+            <p><strong>Адрес:</strong> г. Алматы, ул. Манаса 34/1</p>
         </div>
     </div>
-    {% endfor %}
-</div>
-    </div>
-</section>
-        
-<!-- Conditions Section -->
-<section class="conditions" id="conditions-section">
-<div class="container">
-<div class="section-title">
-<h2>Условия аренды</h2>
-<p>Правила и требования для аренды автомобиля</p>
-</div>
-<div class="condition-cards">
-<div class="condition-card">
-<h3>Требования к арендатору</h3>
-<ul>
-<li>Возраст от 21 года</li>
-<li>Водительский стаж не менее 2 лет</li>
-<li>Действующее водительское удостоверение</li>
-<li>Паспорт или удостоверение личности</li>
-<li>Депозит в размере 50% от стоимости аренды</li>
-</ul>
-</div>
-<div class="condition-card">
-<h3>Тарифы и оплата</h3>
-<ul>
-<li>Минимальный срок аренды - 1 сутки</li>
-<li>Оплата картой или наличными</li>
-<li>Бесплатный пробег 200 км/сутки</li>
-<li>Дополнительный километраж: 50 ₸/км</li>
-<li>Полная страховка включена в стоимость</li>
-</ul>
-</div>
-<div class="condition-card">
-<h3>Дополнительные услуги</h3>
-<ul>
-<li>Детское кресло: 2 000 ₸/сутки</li>
-<li>Навигатор: 1 500 ₸/сутки</li>
-<li>Доставка автомобиля: 5 000 ₸</li>
-<li>Дополнительный водитель: 3 000 ₸</li>
-<li>Зимние шины (в сезон): бесплатно</li>
-</ul>
-</div>
-</div>
-</div>
-</section>
-<!-- Footer -->
-<footer id="contacts-section">
-<div class="container">
-<div class="footer-content">
-<div class="footer-column">
-<h3>Компания</h3>
-<ul>
-<li><a href="#">О нас</a></li>
-<li><a href="#">Команда</a></li>
-<li><a href="#">Карьера</a></li>
-<li><a href="#">Блог</a></li>
-</ul>
-</div>
-<div class="footer-column">
-<h3>Контакты</h3>
-<ul>
-<li><a href="#">+7 (747) 516-75-97</a></li>
-<li><a href="#">+7 (747) 773-43-60</a></li>
-<li><a href="#">realcar@gmail.com</a></li>
-<li><a href="#">г. Алматы, ул. Манаса 34/1</a></li>
-</ul>
-</div>
-<div class="footer-column">
-<h3>Помощь</h3>
-<ul>
-<li><a href="#">FAQ</a></li>
-<li><a href="#">Условия аренды</a></li>
-<li><a href="#">Политика конфиденциальности</a></li>
-</ul>
-</div>
-<div class="footer-column">
-<h3>Мы в соцсетях</h3>
-<div class="social-links">
-<a href="https://www.instagram.com/amangeldi.e_/"><i class="fab fa-instagram"></i></a>
-<a href="#"><i class="fab fa-facebook"></i></a>
-<a href="#"><i class="fab fa-telegram"></i></a>
-<a href="#"><i class="fab fa-whatsapp"></i></a>
-</div>
-</div>
-</div>
-<div class="copyright">
-<p>© 2025 REAL CAR. Все права защищены.</p>
-</div>
-</div>
-</footer>
-<script></script>
-<!-- Модальное окно аренды -->
-<div class="modal" id="rentalModal">
-<div class="modal-content">
-<span class="close" onclick="closeRentalModal()">×</span>
 
-<h2>Свяжитесь с нами для аренды</h2>
-<p><strong>Телефон:</strong> +7 (747) 516-75-97</p>
-<p><strong>Телефон:</strong> +7 (747) 773-43-60</p>
-<p><strong>Email:</strong> realcar@gmail.com</p>
-<p><strong>Адрес:</strong> г. Алматы, ул. Манаса 34/1</p>
-</div>
-</div>
-<style>
-/* Стили модального окна */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 2000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0,0,0,0.6);
-}
-.modal-content {
-  background-color: #fff;
-  margin: 10% auto;
-  padding: 30px;
-  border-radius: 10px;
-  width: 90%;
-  max-width: 500px;
-  position: relative;
-  text-align: center;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-}
-.modal-logo {
-  width: 100px;
-  margin-bottom: 20px;
-}
-.close {
-  position: absolute;
-  right: 20px;
-  top: 15px;
-  font-size: 28px;
-  font-weight: bold;
-  cursor: pointer;
-  color: #999;
-}
-.close:hover {
-  color: #333;
-}
+    <script>
+        // Auth dropdown functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const dropdown = document.getElementById('dropdown');
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            const tabButtons = document.querySelectorAll('.tab-button');
 
-/* Стили для кнопки Арендовать */
-.cta-button {
-  background-color: var(--secondary);
-  color: white !important;
-  padding: 12px 20px;
-  border-radius: 30px;
-  font-size: 16px;
-  font-weight: 600;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s;
-  text-decoration: none;
-  display: inline-block;
-}
-.cta-button:hover {
-  background-color: #0077a6;
-  transform: scale(1.05);
-}
-</style>
-<script>
-// Открытие и закрытие модального окна аренды
-function openRentalModal() {
-  document.getElementById('rentalModal').style.display = 'block';
-}
-function closeRentalModal() {
-  document.getElementById('rentalModal').style.display = 'none';
-}
-window.onclick = function(event) {
-  const modal = document.getElementById('rentalModal');
-  if (event.target === modal) {
-    closeRentalModal();
-  }
-}
+            window.toggleDropdown = function(formType) {
+                dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+                switchTab(formType);
+            }
 
-// Назначить всем кнопкам "Арендовать" событие открытия модального окна
-document.addEventListener('DOMContentLoaded', function() {
-  document.querySelectorAll('.cta-button').forEach(button => {
-    button.addEventListener('click', function(event) {
-      event.preventDefault();
-      openRentalModal();
-    });
-  });
-});
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const dropdown = document.getElementById('dropdown');
-      const loginForm = document.getElementById('login-form');
-      const registerForm = document.getElementById('register-form');
-      const tabButtons = document.querySelectorAll('.tab-button');
-    
-      window.toggleDropdown = function(formType) {
-        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-        switchTab(formType);
-      }
-    
-      window.switchTab = function(tabName) {
-        tabButtons.forEach(button => {
-          button.classList.remove('active');
-          if (button.textContent.toLowerCase().includes(tabName)) {
-            button.classList.add('active');
-          }
+            window.switchTab = function(tabName) {
+                tabButtons.forEach(button => {
+                    button.classList.remove('active');
+                    if (button.textContent.toLowerCase().includes(tabName)) {
+                        button.classList.add('active');
+                    }
+                });
+
+                loginForm.classList.remove('active');
+                registerForm.classList.remove('active');
+                if (tabName === 'login') {
+                    loginForm.classList.add('active');
+                } else {
+                    registerForm.classList.add('active');
+                }
+            }
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(event) {
+                const isClickInside = dropdown.contains(event.target) || event.target.matches('.auth-button');
+                if (!isClickInside) {
+                    dropdown.style.display = 'none';
+                }
+            });
         });
-    
-        loginForm.classList.remove('active');
-        registerForm.classList.remove('active');
-        if (tabName === 'login') {
-          loginForm.classList.add('active');
-        } else {
-          registerForm.classList.add('active');
+
+        // Rental modal functionality
+        function openRentalModal(carName = '') {
+            const modal = document.getElementById('rentalModal');
+            if (carName) {
+                document.getElementById('modal-car-title').textContent = `Аренда ${carName}`;
+            }
+            modal.style.display = 'block';
         }
-      }
-    
-      // Закрытие dropdown по клику вне блока
-      document.addEventListener('click', function(event) {
-        const isClickInside = dropdown.contains(event.target) || event.target.matches('.auth-button');
-        if (!isClickInside) {
-          dropdown.style.display = 'none';
+
+        function closeRentalModal() {
+            document.getElementById('rentalModal').style.display = 'none';
         }
-      });
-    });
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('rentalModal');
+            if (event.target === modal) {
+                closeRentalModal();
+            }
+        }
     </script>
-    
-</body></html>
+</body>
+</html>
